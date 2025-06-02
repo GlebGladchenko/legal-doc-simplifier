@@ -3,7 +3,6 @@ package com.example.legaldocsimplifier.services;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,13 +16,8 @@ import java.io.IOException;
 
 @ExtendWith(MockitoExtension.class)
 class DocumentTextExtractionServiceTest {
-@InjectMocks
+    @InjectMocks
     private DocumentTextExtractionService extractionService;
-
-    @BeforeEach
-    void setUp() {
-        extractionService = new DocumentTextExtractionService();
-    }
 
     @Test
     void testExtractTextFromPdf() throws IOException {

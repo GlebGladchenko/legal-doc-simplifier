@@ -1,31 +1,28 @@
 package com.example.legaldocsimplifier.controllers;
 
 import com.example.legaldocsimplifier.services.DocumentProcessingService;
-import com.example.legaldocsimplifier.services.DocumentTextExtractionService;
+import com.example.legaldocsimplifier.services.OpenAIClientService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/upload")
 public class DocumentController {
-    private final DocumentTextExtractionService extractionService;
     private final DocumentProcessingService processingService;
-    private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+    private final OpenAIClientService openAIClientService;
 
-    public DocumentController(DocumentTextExtractionService extractionService, DocumentProcessingService processingService) {
-        this.extractionService = extractionService;
+    public DocumentController(DocumentProcessingService processingService, OpenAIClientService openAIClientService) {
         this.processingService = processingService;
+        this.openAIClientService = openAIClientService;
     }
 
     @PostMapping
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         try {
             String text = processingService.extractTextFromFile(file);
-            return ResponseEntity.ok(text);
+            String result = openAIClientService.callOpenAI(text);
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {

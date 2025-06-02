@@ -10,7 +10,12 @@ repositories {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '18'
+
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_18
+    targetCompatibility = JavaVersion.VERSION_18
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
