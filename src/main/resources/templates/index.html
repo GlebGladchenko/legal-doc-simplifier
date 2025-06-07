@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Upload Legal Document</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
+    <script>
+        function showFileName(input) {
+            const fileNameSpan = document.getElementById('file-name');
+            if (input.files && input.files.length > 0) {
+                fileNameSpan.textContent = "Selected file: " + input.files[0].name;
+            } else {
+                fileNameSpan.textContent = "";
+            }
+        }
+        window.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const spinnerOverlay = document.getElementById('spinner-overlay');
+            form.addEventListener('submit', function() {
+                spinnerOverlay.style.display = 'flex';
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Upload Your Legal Document</h2>
+    <div class="instructions">
+        Please select a legal document file to simplify.<br>
+        <strong>Accepted formats:</strong> PDF, DOCX.<br>
+        Your file will be processed securely.
+    </div>
+    <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+        <label for="file">Choose file:</label>
+        <input type="file" id="file" name="file" required onchange="showFileName(this)" accept=".pdf,.doc,.docx,.txt"/>
+        <div id="file-name" class="file-name"></div>
+        <button type="submit">Simplify</button>
+    </form>
+</div>
+<div class="spinner-overlay" id="spinner-overlay">
+    <div>
+        <div class="spinner"></div>
+        <div class="spinner-text">Processing, please wait...</div>
+    </div>
+</div>
+</body>
+</html>

@@ -3,11 +3,12 @@ package com.example.legaldocsimplifier.controllers;
 import com.example.legaldocsimplifier.services.DocumentProcessingService;
 import com.example.legaldocsimplifier.services.OpenAIClientService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
-@RequestMapping("/api/upload")
+@Controller
 public class DocumentController {
     private final DocumentProcessingService processingService;
     private final OpenAIClientService openAIClientService;
@@ -17,17 +18,16 @@ public class DocumentController {
         this.openAIClientService = openAIClientService;
     }
 
-    @PostMapping
-    public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
-        try {
-            String text = processingService.extractTextFromFile(file);
-            String result = openAIClientService.callOpenAI(text);
-            return ResponseEntity.ok(result);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Failed to extract text: " + e.getMessage());
-        }
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws Exception {
+        String text = processingService.extractTextFromFile(file);
+        String summary = openAIClientService.callOpenAI(text);
+        model.addAttribute("summary", summary);
+        return "result";
     }
 
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
 }
