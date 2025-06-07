@@ -12,11 +12,44 @@
                 fileNameSpan.textContent = "";
             }
         }
+
         window.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('form');
             const spinnerOverlay = document.getElementById('spinner-overlay');
             form.addEventListener('submit', function() {
                 spinnerOverlay.style.display = 'flex';
+            });
+
+            // Drag and drop logic
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file');
+            const fileNameSpan = document.getElementById('file-name');
+
+            dropZone.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    showFileName(fileInput);
+                }
+            });
+
+            fileInput.addEventListener('change', function() {
+                showFileName(fileInput);
             });
         });
     </script>
@@ -31,7 +64,10 @@
     </div>
     <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
         <label for="file">Choose file:</label>
-        <input type="file" id="file" name="file" required onchange="showFileName(this)" accept=".pdf,.doc,.docx,.txt"/>
+        <div id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drag and drop your file here or click to select">
+            Drag &amp; drop your file here or click to select
+        </div>
+        <input type="file" id="file" name="file" required accept=".pdf,.doc,.docx,.txt" style="display:none;"/>
         <div id="file-name" class="file-name"></div>
         <button type="submit">Simplify</button>
     </form>
@@ -42,5 +78,11 @@
         <div class="spinner-text">Processing, please wait...</div>
     </div>
 </div>
+<footer class="footer-links">
+    <a href="/terms">Terms</a> |
+    <a href="/privacy">Privacy Policy</a> |
+    <a href="/disclaimer">Disclaimer</a> |
+    <a href="/contact">Contact</a>
+</footer>
 </body>
 </html>
