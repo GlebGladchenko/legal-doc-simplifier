@@ -2,7 +2,6 @@ package com.example.legaldocsimplifier.controllers;
 
 import com.example.legaldocsimplifier.services.DocumentProcessingService;
 import com.example.legaldocsimplifier.services.OpenAIClientService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,5 +28,20 @@ public class DocumentController {
     @GetMapping("/")
     public String index() {
         return "index";
+    }
+
+    @GetMapping("/privacy")
+    public String privacy() {
+        return "privacy";
+    }
+
+    @GetMapping("/terms")
+    public String terms() {
+        return "terms";
+    }
+
+    @GetMapping("/disclaimer")
+    public String disclaimer() {
+        return "disclaimer";
     }
 }

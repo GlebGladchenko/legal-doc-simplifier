@@ -122,3 +122,47 @@ pre {
     font-size: 1.1em;
     text-align: center;
 }
+
+/* Footer links styling */
+.footer-links {
+    flex-shrink: 0;
+    text-align: center;
+    padding: 18px 0 12px 0;
+    background: #f7f7f7;
+    color: #888;
+    font-size: 1em;
+    border-top: 1px solid #e0e0e0;
+}
+
+.footer-links a {
+    color: #1976d2;
+    text-decoration: none;
+    margin: 0 8px;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #1565c0;
+    text-decoration: underline;
+}
+
+.drop-zone {
+    border: 2px dashed #1976d2;
+    border-radius: 6px;
+    padding: 28px 0;
+    text-align: center;
+    color: #1976d2;
+    background: #f4f8fc;
+    cursor: pointer;
+    margin-bottom: 16px;
+    transition: background 0.2s, border-color 0.2s;
+}
+.drop-zone.dragover {
+    background: #e3f0fc;
+    border-color: #1565c0;
+}
+.drop-zone:focus {
+    outline: none;
+    border-color: #1565c0;
+    background: #e3f0fc;
+}

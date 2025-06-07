@@ -11,6 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -35,7 +37,12 @@ class DocumentControllerTest {
 
     @BeforeEach
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(documentController).build();
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/templates/");
+        viewResolver.setSuffix(".html");
+        mockMvc = MockMvcBuilders.standaloneSetup(documentController)
+                .setViewResolvers(viewResolver)
+                .build();
         mockFile = new MockMultipartFile(
                 "file",
                 "test.pdf",
@@ -64,5 +71,26 @@ class DocumentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("result"))
                 .andExpect(model().attribute("summary", summary));
+    }
+
+    @Test
+    void testPrivacyReturnsPrivacyView() throws Exception {
+        mockMvc.perform(get("/privacy"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("privacy"));
+    }
+
+    @Test
+    void testTermsReturnsTermsView() throws Exception {
+        mockMvc.perform(get("/terms"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("terms"));
+    }
+
+    @Test
+    void testDisclaimerReturnsDisclaimerView() throws Exception {
+        mockMvc.perform(get("/disclaimer"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("disclaimer"));
     }
 }
