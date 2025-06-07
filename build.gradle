@@ -23,6 +23,12 @@ dependencies {
     implementation 'org.apache.pdfbox:pdfbox:2.0.30'
     implementation 'org.apache.poi:poi-ooxml:5.4.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+}
+
+bootRun {
+    jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]
 }
 
 test {
