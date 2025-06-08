@@ -1,5 +1,6 @@
 package com.example.legaldocsimplifier.services;
 
+import com.example.legaldocsimplifier.services.impl.OpenAIClientServiceImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,10 +30,10 @@ class OpenAIClientServiceTest {
         objectMapper = mock(ObjectMapper.class);
 
         // Use reflection or a constructor if available to inject the API key
-        openAIClientService = new OpenAIClientService(restTemplate, objectMapper);
+        openAIClientService = new OpenAIClientServiceImpl(restTemplate, objectMapper);
         // If using @Value injection, set the field via reflection for testing
         try {
-            var field = OpenAIClientService.class.getDeclaredField("openAIApiKey");
+            var field = OpenAIClientServiceImpl.class.getDeclaredField("openAIApiKey");
             field.setAccessible(true);
             field.set(openAIClientService, dummyApiKey);
         } catch (Exception ignored) {}

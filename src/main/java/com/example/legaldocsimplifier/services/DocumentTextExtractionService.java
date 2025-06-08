@@ -1,27 +1,32 @@
 package com.example.legaldocsimplifier.services;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@Service
-public class DocumentTextExtractionService {
-    public String extractTextFromPDF(MultipartFile file) throws IOException {
-        try (PDDocument document = PDDocument.load(file.getInputStream())) {
-            PDFTextStripper stripper = new PDFTextStripper();
-            return stripper.getText(document);
-        }
-    }
+/**
+ * Service interface for extracting text content from legal document files.
+ * <p>
+ * Implementations of this interface provide methods to extract text from
+ * supported file formats such as PDF and DOCX.
+ */
+public interface DocumentTextExtractionService {
 
-    public String extractTextFromDocx(MultipartFile file) throws IOException {
-        try (XWPFDocument doc = new XWPFDocument(file.getInputStream());
-             XWPFWordExtractor extractor = new XWPFWordExtractor(doc)) {
-            return extractor.getText();
-        }
-    }
+    /**
+     * Extracts text content from a PDF file.
+     *
+     * @param file the uploaded PDF file
+     * @return the extracted text content as a String
+     * @throws IOException if an I/O error occurs during extraction
+     */
+    String extractTextFromPDF(MultipartFile file) throws IOException;
+
+    /**
+     * Extracts text content from a DOCX file.
+     *
+     * @param file the uploaded DOCX file
+     * @return the extracted text content as a String
+     * @throws IOException if an I/O error occurs during extraction
+     */
+    String extractTextFromDocx(MultipartFile file) throws IOException;
 }

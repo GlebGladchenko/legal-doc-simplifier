@@ -1,5 +1,6 @@
 package com.example.legaldocsimplifier.services;
 
+import com.example.legaldocsimplifier.services.impl.DocumentProcessingServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,7 +14,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class DocumentProcessingServiceTest {
     @InjectMocks
-    private DocumentProcessingService documentProcessingService;
+    private DocumentProcessingServiceImpl documentProcessingService;
     @Mock
     private DocumentTextExtractionService extractionService;
 
