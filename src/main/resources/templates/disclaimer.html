@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Disclaimer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
 </head>
 <body>
-<h1>Disclaimer</h1>
-
-<p>The AI-generated content on this platform is for informational use only.</p>
-
-<p>We are not attorneys. This is not legal advice. No attorney-client relationship is created by using this Service.</p>
-
-<p>Use of this Service and the AI output is at your own risk. Results may be inaccurate, outdated, or incomplete.</p>
-
-<p>Always consult a qualified legal professional before taking any action based on AI-generated content.</p>
+<div class="disclaimer-container">
+    <div class="home-btn-container">
+        <a href="/" class="home-btn">Home</a>
+    </div>
+    <h1>Disclaimer</h1>
+    <p class="important">Please read this disclaimer carefully before using our AI-powered legal document simplifier.</p>
+    <ul>
+        <li>The AI-generated content on this platform is for <strong>informational purposes only</strong>.</li>
+        <li><strong>We are not attorneys.</strong> This is <strong>not legal advice</strong>. No attorney-client relationship is created by using this Service.</li>
+        <li>Use of this Service and the AI output is at your own risk. Results may be inaccurate, outdated, or incomplete.</li>
+        <li>Always consult a qualified legal professional before taking any action based on AI-generated content.</li>
+    </ul>
+    <p>If you have questions or concerns, please <a href="/contact">contact us</a>.</p>
+</div>
+<footer class="footer-links">
+    <a href="/terms">Terms</a> |
+    <a href="/privacy">Privacy Policy</a> |
+    <a href="/disclaimer">Disclaimer</a> |
+    <a href="/contact">Contact</a>
+</footer>
 </body>
 </html>

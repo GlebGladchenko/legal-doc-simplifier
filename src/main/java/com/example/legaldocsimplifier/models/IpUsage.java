@@ -17,6 +17,7 @@ public class IpUsage {
 
     private String ipAddress;
     private int usageCount;
+    private int usageLimit = 2;
     private LocalDateTime lastUsed;
 
     public Long getId() {
@@ -49,5 +50,13 @@ public class IpUsage {
 
     public void setLastUsed(LocalDateTime lastUsed) {
         this.lastUsed = lastUsed;
+    }
+
+    public int getUsageLimit() {
+        return usageLimit;
+    }
+
+    public void setUsageLimit(int usageLimit) {
+        this.usageLimit = usageLimit;
     }
 }

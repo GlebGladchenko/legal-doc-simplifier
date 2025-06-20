@@ -2,11 +2,14 @@ package com.example.legaldocsimplifier.controllers;
 
 import com.example.legaldocsimplifier.services.impl.DocumentProcessingServiceImpl;
 import com.example.legaldocsimplifier.services.impl.OpenAIClientServiceImpl;
+import com.stripe.model.checkout.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,11 +19,9 @@ import com.example.legaldocsimplifier.models.IpUsage;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -118,5 +119,48 @@ class DocumentControllerTest {
         mockMvc.perform(get("/disclaimer"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("disclaimer"));
+    }
+
+    @Test
+    void testSuccessEndpointReturnsSuccessViewAndClientIp() throws Exception {
+        String sessionId = "sess_123";
+        String clientIp = "127.0.0.1";
+
+        // Mock Stripe Session static retrieval
+        try (MockedStatic<Session> sessionStatic = Mockito.mockStatic(Session.class)) {
+            Session mockSession = Mockito.mock(Session.class);
+            when(mockSession.getClientReferenceId()).thenReturn(clientIp);
+            sessionStatic.when(() -> Session.retrieve(sessionId)).thenReturn(mockSession);
+
+            mockMvc.perform(get("/success").param("session_id", sessionId))
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("success"))
+                    .andExpect(model().attribute("clientIp", clientIp));
+        }
+    }
+
+    @Test
+    void testCancelEndpointReturnsCancelView() throws Exception {
+        mockMvc.perform(get("/cancel"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("cancel"));
+    }
+
+    @Test
+    void testShowContactFormReturnsContactView() throws Exception {
+        mockMvc.perform(get("/contact"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("contact"));
+    }
+
+    @Test
+    void testHandleContactFormReturnsContactViewWithSuccess() throws Exception {
+        mockMvc.perform(post("/contact")
+                        .param("name", "John Doe")
+                        .param("email", "john@example.com")
+                        .param("message", "Hello!"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("contact"))
+                .andExpect(model().attribute("success", true));
     }
 }

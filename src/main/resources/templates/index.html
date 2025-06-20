@@ -16,41 +16,62 @@
         window.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('form');
             const spinnerOverlay = document.getElementById('spinner-overlay');
-            form.addEventListener('submit', function() {
-                spinnerOverlay.style.display = 'flex';
-            });
+            if (form) {
+                form.addEventListener('submit', function() {
+                    spinnerOverlay.style.display = 'flex';
+                });
+            }
 
             // Drag and drop logic
             const dropZone = document.getElementById('drop-zone');
             const fileInput = document.getElementById('file');
             const fileNameSpan = document.getElementById('file-name');
 
-            dropZone.addEventListener('click', function() {
-                fileInput.click();
-            });
+            if (dropZone && fileInput) {
+                dropZone.addEventListener('click', function() {
+                    fileInput.click();
+                });
 
-            dropZone.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
+                dropZone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    dropZone.classList.add('dragover');
+                });
 
-            dropZone.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-            });
+                dropZone.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    dropZone.classList.remove('dragover');
+                });
 
-            dropZone.addEventListener('drop', function(e) {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                    fileInput.files = e.dataTransfer.files;
+                dropZone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    dropZone.classList.remove('dragover');
+                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                        fileInput.files = e.dataTransfer.files;
+                        showFileName(fileInput);
+                    }
+                });
+
+                fileInput.addEventListener('change', function() {
                     showFileName(fileInput);
-                }
-            });
+                });
+            }
 
-            fileInput.addEventListener('change', function() {
-                showFileName(fileInput);
-            });
+            // Modal logic
+            const modal = document.getElementById('limit-modal');
+            if (modal && modal.dataset.show === "true") {
+                modal.style.display = 'flex';
+            }
+            const closeBtn = document.getElementById('close-modal-btn');
+            if (closeBtn) {
+                closeBtn.onclick = function() {
+                    modal.style.display = 'none';
+                }
+            }
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
         });
     </script>
 </head>
@@ -78,6 +99,19 @@
         <div class="spinner-text">Processing, please wait...</div>
     </div>
 </div>
+
+<!-- Modal for quota limit -->
+<div id="limit-modal" class="modal-overlay" th:data-show="${showLimitModal}" style="display:none;">
+    <div class="modal-content">
+        <span id="close-modal-btn" class="modal-close">&times;</span>
+        <h3 class="modal-title">Limit Reached</h3>
+        <p class="modal-message" th:text="${error}">You have used your free quota. Please upgrade.</p>
+        <form method="post" action="/api/payment/create-checkout-session">
+            <button type="submit" class="pay-btn">Upgrade Now</button>
+        </form>
+    </div>
+</div>
+
 <footer class="footer-links">
     <a href="/terms">Terms</a> |
     <a href="/privacy">Privacy Policy</a> |

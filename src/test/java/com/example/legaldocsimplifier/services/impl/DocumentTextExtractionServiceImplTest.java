@@ -1,6 +1,5 @@
-package com.example.legaldocsimplifier.services;
+package com.example.legaldocsimplifier.services.impl;
 
-import com.example.legaldocsimplifier.services.impl.DocumentTextExtractionServiceImpl;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @ExtendWith(MockitoExtension.class)
-class DocumentTextExtractionServiceTest {
+class DocumentTextExtractionServiceImplTest {
     @InjectMocks
     private DocumentTextExtractionServiceImpl extractionService;
 

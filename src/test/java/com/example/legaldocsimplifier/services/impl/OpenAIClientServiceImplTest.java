@@ -1,6 +1,6 @@
-package com.example.legaldocsimplifier.services;
+package com.example.legaldocsimplifier.services.impl;
 
-import com.example.legaldocsimplifier.services.impl.OpenAIClientServiceImpl;
+import com.example.legaldocsimplifier.services.OpenAIClientService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-class OpenAIClientServiceTest {
+class OpenAIClientServiceImplTest {
     private RestTemplate restTemplate;
     private ObjectMapper objectMapper;
     private OpenAIClientService openAIClientService;
