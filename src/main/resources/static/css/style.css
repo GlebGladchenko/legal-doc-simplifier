@@ -11,6 +11,7 @@ body {
     padding: 32px 24px 24px 24px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
 }
 h2 {
     text-align: center;
@@ -97,10 +98,17 @@ pre {
 /* Spinner overlay styles */
 .spinner-overlay {
     display: none;
-    position: fixed;
+    position: absolute;
     z-index: 9999;
     top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.spinner-overlay > div {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -240,11 +248,9 @@ pre {
 /* Modal overlay styles */
 .modal-overlay {
     display: none;
-    position: fixed;
+    position: absolute;
     z-index: 10000;
     left: 0; top: 0; right: 0; bottom: 0;
-    width: 100vw;
-    height: 100vh;
     background: rgba(0,0,0,0.35);
     /* Flexbox for centering */
     display: flex;
@@ -261,9 +267,10 @@ pre {
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-    padding: 36px 32px 32px 32px;
-    max-width: 380px;
-    width: 90vw;
+    padding: 36px 16px 32px 16px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
     text-align: center;
     position: relative;
     animation: modal-pop 0.25s cubic-bezier(0.23, 1, 0.32, 1);
@@ -497,5 +504,31 @@ form textarea {
 @media (max-width: 600px) {
     .privacy-container {
         padding: 18px 6px 16px 6px;
+    }
+}
+
+/* Main heading styles */
+.main-heading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.main-heading {
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #1976d2;
+    letter-spacing: 0.02em;
+    margin: 0;
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+@media (max-width: 500px) {
+    .main-heading {
+        font-size: 1.3em;
+        white-space: normal;
     }
 }

@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Upload Legal Document</title>
+    <title>AI Legal Document Simplifier</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
     <script>
         function showFileName(input) {
             const fileNameSpan = document.getElementById('file-name');
+            const maxSizeMB = 4;
+
             if (input.files && input.files.length > 0) {
-                fileNameSpan.textContent = "Selected file: " + input.files[0].name;
+                const file = input.files[0];
+                if (file.size > maxSizeMB * 1024 * 1024) {
+                    alert("❌ File too large. Maximum allowed size is " + maxSizeMB + "MB.");
+                    input.value = ""; // Reset file input
+                    fileNameSpan.textContent = "";
+                    return;
+                }
+
+                fileNameSpan.textContent = "Selected file: " + file.name;
             } else {
                 fileNameSpan.textContent = "";
             }
@@ -22,7 +32,6 @@
                 });
             }
 
-            // Drag and drop logic
             const dropZone = document.getElementById('drop-zone');
             const fileInput = document.getElementById('file');
             const fileNameSpan = document.getElementById('file-name');
@@ -56,7 +65,6 @@
                 });
             }
 
-            // Modal logic
             const modal = document.getElementById('limit-modal');
             if (modal && modal.dataset.show === "true") {
                 modal.style.display = 'flex';
@@ -77,12 +85,20 @@
 </head>
 <body>
 <div class="container">
-    <h2>Upload Your Legal Document</h2>
-    <div class="instructions">
-        Please select a legal document file to simplify.<br>
-        <strong>Accepted formats:</strong> PDF, DOCX.<br>
-        Your file will be processed securely.
+    <div class="main-heading-container">
+        <h1 class="main-heading">AI Legal Document Simplifier</h1>
     </div>
+
+    <div class="instructions">
+        <p><strong>Instantly translate complex legal documents into plain English using AI.</strong></p>
+        <p>Upload your PDF or DOCX file and get a simplified, easy-to-understand version in seconds.</p>
+        <ul>
+            <li>📄 Accepted formats: PDF, DOCX</li>
+            <li>🔐 Your file is processed securely — no data is stored</li>
+            <li>🎁 <strong>2 free simplifications</strong> — no account or signup needed</li>
+        </ul>
+    </div>
+
     <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
         <label for="file">Choose file:</label>
         <div id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drag and drop your file here or click to select">
@@ -92,31 +108,31 @@
         <div id="file-name" class="file-name"></div>
         <button type="submit">Simplify</button>
     </form>
-</div>
-<div class="spinner-overlay" id="spinner-overlay">
-    <div>
-        <div class="spinner"></div>
-        <div class="spinner-text">Processing, please wait...</div>
+    <div class="spinner-overlay" id="spinner-overlay" style="display:none;">
+        <div>
+            <div class="spinner"></div>
+            <div class="spinner-text">Processing, please wait...</div>
+        </div>
     </div>
-</div>
 
-<!-- Modal for quota limit -->
-<div id="limit-modal" class="modal-overlay" th:data-show="${showLimitModal}" style="display:none;">
-    <div class="modal-content">
-        <span id="close-modal-btn" class="modal-close">&times;</span>
-        <h3 class="modal-title">Limit Reached</h3>
-        <p class="modal-message" th:text="${error}">You have used your free quota. Please upgrade.</p>
-        <form method="post" action="/api/payment/create-checkout-session">
-            <button type="submit" class="pay-btn">Upgrade Now</button>
-        </form>
+    <!-- Modal for quota limit -->
+    <div id="limit-modal" class="modal-overlay" th:data-show="${showLimitModal}" style="display:none;">
+        <div class="modal-content">
+            <span id="close-modal-btn" class="modal-close">&times;</span>
+            <h3 class="modal-title">Limit Reached</h3>
+            <p class="modal-message" th:text="${error}">You have used your free quota. Please upgrade.</p>
+            <form method="post" action="/api/payment/create-checkout-session">
+                <button type="submit" class="pay-btn">Upgrade Now</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<footer class="footer-links">
-    <a href="/terms">Terms</a> |
-    <a href="/privacy">Privacy Policy</a> |
-    <a href="/disclaimer">Disclaimer</a> |
-    <a href="/contact">Contact</a>
-</footer>
+    <footer class="footer-links">
+        <a href="/terms">Terms</a> |
+        <a href="/privacy">Privacy Policy</a> |
+        <a href="/disclaimer">Disclaimer</a> |
+        <a href="/contact">Contact</a>
+    </footer>
+</div>
 </body>
 </html>
