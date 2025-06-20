@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Canceled</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 40px;
+        }
+        .cancel-container {
+            background: #ffffff;
+            padding: 30px;
+            margin: auto;
+            max-width: 500px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .cancel-icon {
+            font-size: 48px;
+            color: #dc3545;
+        }
+        .message {
+            font-size: 18px;
+            color: #333;
+            margin-top: 20px;
+        }
+        .link {
+            margin-top: 30px;
+            display: inline-block;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cancel-container">
+    <div class="cancel-icon">❌</div>
+    <h2>Payment Canceled</h2>
+    <p class="message">You canceled the payment. No charges were made.</p>
+    <p class="message">If this was a mistake, feel free to try again anytime.</p>
+
+    <a href="/" class="link">Return to Home</a>
+</div>
+
+</body>
+</html>

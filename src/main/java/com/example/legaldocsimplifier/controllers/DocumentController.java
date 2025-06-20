@@ -3,6 +3,8 @@ package com.example.legaldocsimplifier.controllers;
 import com.example.legaldocsimplifier.models.IpUsage;
 import com.example.legaldocsimplifier.services.DocumentProcessingService;
 import com.example.legaldocsimplifier.services.OpenAIClientService;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class DocumentController {
-    private static final int FREE_LIMIT = 2;
-
     private final DocumentProcessingService processingService;
     private final OpenAIClientService openAIClientService;
 
@@ -26,8 +26,10 @@ public class DocumentController {
         String ip = request.getRemoteAddr();
         IpUsage ipUsage = processingService.getOrCreateIpUsage(ip);
 
-        if (ipUsage.getUsageCount() >= FREE_LIMIT) {
+        if (ipUsage.getUsageCount() >= ipUsage.getUsageLimit()) {
+            // Set error message for modal and a flag to trigger modal display
             model.addAttribute("error", "You have used your free quota. Please upgrade.");
+            model.addAttribute("showLimitModal", true);
             return "index";
         }
 
@@ -57,5 +59,38 @@ public class DocumentController {
     @GetMapping("/disclaimer")
     public String disclaimer() {
         return "disclaimer";
+    }
+
+    @GetMapping("/success")
+    public String success(@RequestParam("session_id") String sessionId, Model model) throws StripeException, StripeException {
+        Session session = Session.retrieve(sessionId);
+        String clientIp = session.getClientReferenceId();
+
+        model.addAttribute("clientIp", clientIp);
+        return "success";
+    }
+
+    @GetMapping("/cancel")
+    public String cancel() {
+        return "cancel";
+    }
+
+    @GetMapping("/contact")
+    public String showContactForm() {
+        return "contact";
+    }
+
+    @PostMapping("/contact")
+    public String handleContactForm(
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String message,
+            Model model
+    ) {
+        // TODO: Send email or save to DB
+        System.out.printf("📬 Contact form received: %s (%s) - %s%n", name, email, message);
+
+        model.addAttribute("success", true);
+        return "contact";
     }
 }
