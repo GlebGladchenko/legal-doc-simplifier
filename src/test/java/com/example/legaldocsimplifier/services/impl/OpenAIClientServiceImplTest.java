@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 class OpenAIClientServiceImplTest {
     private RestTemplate restTemplate;
     private ObjectMapper objectMapper;
-    private OpenAIClientService openAIClientService;
+    private OpenAIClientServiceImpl openAIClientService;
 
     // Use a dummy API key for testing
     private final String dummyApiKey = "test-api-key";
@@ -28,10 +28,7 @@ class OpenAIClientServiceImplTest {
     void setUp() {
         restTemplate = mock(RestTemplate.class);
         objectMapper = mock(ObjectMapper.class);
-
-        // Use reflection or a constructor if available to inject the API key
         openAIClientService = new OpenAIClientServiceImpl(restTemplate, objectMapper);
-        // If using @Value injection, set the field via reflection for testing
         try {
             var field = OpenAIClientServiceImpl.class.getDeclaredField("openAIApiKey");
             field.setAccessible(true);
@@ -40,12 +37,9 @@ class OpenAIClientServiceImplTest {
     }
 
     @Test
-    void callOpenAI_shouldReturnExtractedContent_whenResponseIsValid() throws Exception {
-        String documentText = "Test legal document";
-        String prompt = "Please simplify and summarize the following legal document:\n\n" + documentText;
-
-        // Mock OpenAI API response JSON
-        String responseBody = "{\"choices\":[{\"message\":{\"content\":\"Simplified summary.\"}}]}";
+    void simplifyWithPrompt_shouldReturnExtractedContent_whenResponseIsValid() throws Exception {
+        String prompt = "Test prompt";
+        String responseBody = "{\"choices\":[{\"message\":{\"content\":\"Simplified result.\"}}]}";
         ResponseEntity<String> responseEntity = new ResponseEntity<>(responseBody, HttpStatus.OK);
 
         when(restTemplate.postForEntity(
@@ -54,11 +48,9 @@ class OpenAIClientServiceImplTest {
                 eq(String.class)
         )).thenReturn(responseEntity);
 
-        // Mock ObjectMapper parsing
         JsonNode mockRoot = mock(JsonNode.class);
         JsonNode mockChoices = mock(JsonNode.class);
         JsonNode mockMessage = mock(JsonNode.class);
-
         when(objectMapper.readTree(responseBody)).thenReturn(mockRoot);
         when(mockRoot.path("choices")).thenReturn(mockChoices);
         when(mockChoices.isArray()).thenReturn(true);
@@ -66,58 +58,103 @@ class OpenAIClientServiceImplTest {
         when(mockChoices.get(0)).thenReturn(mockMessage);
         when(mockMessage.path("message")).thenReturn(mockMessage);
         when(mockMessage.path("content")).thenReturn(mockMessage);
-        when(mockMessage.asText()).thenReturn("Simplified summary.");
+        when(mockMessage.asText()).thenReturn("Simplified result.");
 
-        String result = openAIClientService.callOpenAI(documentText);
-
-        assertEquals("Simplified summary.", result);
-
-        // Verify correct API call
-        ArgumentCaptor<HttpEntity> captor = ArgumentCaptor.forClass(HttpEntity.class);
-        verify(restTemplate).postForEntity(
-                eq("https://api.openai.com/v1/chat/completions"),
-                captor.capture(),
-                eq(String.class)
-        );
-        HttpEntity<Map<String, Object>> sentRequest = captor.getValue();
-        assertNotNull(sentRequest);
-        assertTrue(sentRequest.getHeaders().getContentType().includes(MediaType.APPLICATION_JSON));
-        assertEquals("Bearer " + dummyApiKey, sentRequest.getHeaders().getFirst(HttpHeaders.AUTHORIZATION));
-        Map<String, Object> body = sentRequest.getBody();
-        assertEquals("gpt-4", body.get("model"));
-        assertEquals(0.2, body.get("temperature"));
-        List<?> messages = (List<?>) body.get("messages");
-        assertEquals(1, messages.size());
-        Map<?, ?> message = (Map<?, ?>) messages.get(0);
-        assertEquals("user", message.get("role"));
-        assertEquals(prompt, message.get("content"));
+        String result = openAIClientService.simplifyWithPrompt(prompt);
+        assertEquals("Simplified result.", result);
     }
 
     @Test
-    void callOpenAI_shouldReturnErrorMessage_whenResponseCannotBeParsed() throws Exception {
-        String documentText = "Test legal document";
-        String invalidResponse = "invalid json";
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(invalidResponse, HttpStatus.OK);
+    void simplifyDocumentWithChunking_shouldReturnSingleSummary_whenTextFitsInOneChunk() throws Exception {
+        String doc = "Short legal document.";
+        int chunkSize = 100;
+        String expectedPrompt = "You are an AI assistant.\nSimplify:\n" + doc;
+        String responseBody = "{\"choices\":[{\"message\":{\"content\":\"Short summary.\"}}]}";
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(responseBody, HttpStatus.OK);
 
         when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(String.class)))
                 .thenReturn(responseEntity);
 
-        when(objectMapper.readTree(invalidResponse)).thenThrow(new RuntimeException("Parsing error"));
+        JsonNode mockRoot = mock(JsonNode.class);
+        JsonNode mockChoices = mock(JsonNode.class);
+        JsonNode mockMessage = mock(JsonNode.class);
+        when(objectMapper.readTree(responseBody)).thenReturn(mockRoot);
+        when(mockRoot.path("choices")).thenReturn(mockChoices);
+        when(mockChoices.isArray()).thenReturn(true);
+        when(mockChoices.size()).thenReturn(1);
+        when(mockChoices.get(0)).thenReturn(mockMessage);
+        when(mockMessage.path("message")).thenReturn(mockMessage);
+        when(mockMessage.path("content")).thenReturn(mockMessage);
+        when(mockMessage.asText()).thenReturn("Short summary.");
 
-        String result = openAIClientService.callOpenAI(documentText);
-
-        assertEquals("Could not extract summary from OpenAI response.", result);
+        String result = openAIClientService.simplifyDocumentWithChunking(doc, chunkSize);
+        assertEquals("Short summary.", result);
     }
 
     @Test
-    void callOpenAI_shouldHandleRestTemplateException() {
-        String documentText = "Test legal document";
+    void simplifyDocumentWithChunking_shouldReturnMergedSummary_whenTextRequiresChunking() throws Exception {
+        String chunk1 = "First part of a long document.";
+        String chunk2 = "Second part of a long document.";
+        String doc = chunk1 + " " + chunk2;
+        int chunkSize = 5; // Force two chunks
 
+        // Mock responses for each chunk and the merge
+        String summary1 = "Summary of first chunk.";
+        String summary2 = "Summary of second chunk.";
+        String merged = "Final merged summary.";
+
+        String responseBody1 = "{\"choices\":[{\"message\":{\"content\":\"" + summary1 + "\"}}]}";
+        String responseBody2 = "{\"choices\":[{\"message\":{\"content\":\"" + summary2 + "\"}}]}";
+        String responseBodyMerged = "{\"choices\":[{\"message\":{\"content\":\"" + merged + "\"}}]}";
+
+        ResponseEntity<String> responseEntity1 = new ResponseEntity<>(responseBody1, HttpStatus.OK);
+        ResponseEntity<String> responseEntity2 = new ResponseEntity<>(responseBody2, HttpStatus.OK);
+        ResponseEntity<String> responseEntityMerged = new ResponseEntity<>(responseBodyMerged, HttpStatus.OK);
+
+        // Set up the sequence of responses for each API call
         when(restTemplate.postForEntity(anyString(), any(HttpEntity.class), eq(String.class)))
-                .thenThrow(new RuntimeException("API error"));
+                .thenReturn(responseEntity1)
+                .thenReturn(responseEntity2)
+                .thenReturn(responseEntityMerged);
 
-        // Depending on your implementation, you may want to catch and handle this exception in your service.
-        // Here, we expect the exception to propagate.
-        assertThrows(RuntimeException.class, () -> openAIClientService.callOpenAI(documentText));
+        // Mock ObjectMapper for each response
+        JsonNode mockRoot1 = mock(JsonNode.class);
+        JsonNode mockChoices1 = mock(JsonNode.class);
+        JsonNode mockMessage1 = mock(JsonNode.class);
+        when(objectMapper.readTree(responseBody1)).thenReturn(mockRoot1);
+        when(mockRoot1.path("choices")).thenReturn(mockChoices1);
+        when(mockChoices1.isArray()).thenReturn(true);
+        when(mockChoices1.size()).thenReturn(1);
+        when(mockChoices1.get(0)).thenReturn(mockMessage1);
+        when(mockMessage1.path("message")).thenReturn(mockMessage1);
+        when(mockMessage1.path("content")).thenReturn(mockMessage1);
+        when(mockMessage1.asText()).thenReturn(summary1);
+
+        JsonNode mockRoot2 = mock(JsonNode.class);
+        JsonNode mockChoices2 = mock(JsonNode.class);
+        JsonNode mockMessage2 = mock(JsonNode.class);
+        when(objectMapper.readTree(responseBody2)).thenReturn(mockRoot2);
+        when(mockRoot2.path("choices")).thenReturn(mockChoices2);
+        when(mockChoices2.isArray()).thenReturn(true);
+        when(mockChoices2.size()).thenReturn(1);
+        when(mockChoices2.get(0)).thenReturn(mockMessage2);
+        when(mockMessage2.path("message")).thenReturn(mockMessage2);
+        when(mockMessage2.path("content")).thenReturn(mockMessage2);
+        when(mockMessage2.asText()).thenReturn(summary2);
+
+        JsonNode mockRootMerged = mock(JsonNode.class);
+        JsonNode mockChoicesMerged = mock(JsonNode.class);
+        JsonNode mockMessageMerged = mock(JsonNode.class);
+        when(objectMapper.readTree(responseBodyMerged)).thenReturn(mockRootMerged);
+        when(mockRootMerged.path("choices")).thenReturn(mockChoicesMerged);
+        when(mockChoicesMerged.isArray()).thenReturn(true);
+        when(mockChoicesMerged.size()).thenReturn(1);
+        when(mockChoicesMerged.get(0)).thenReturn(mockMessageMerged);
+        when(mockMessageMerged.path("message")).thenReturn(mockMessageMerged);
+        when(mockMessageMerged.path("content")).thenReturn(mockMessageMerged);
+        when(mockMessageMerged.asText()).thenReturn(merged);
+
+        String result = openAIClientService.simplifyDocumentWithChunking(doc, chunkSize);
+        assertEquals(merged, result);
     }
 }

@@ -19,7 +19,7 @@ import com.example.legaldocsimplifier.models.IpUsage;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -76,7 +76,7 @@ class DocumentControllerTest {
 
         when(processingService.getOrCreateIpUsage(any())).thenReturn(ipUsage);
         when(processingService.extractTextFromFile(any())).thenReturn(extractedText);
-        when(openAIClientService.callOpenAI(extractedText)).thenReturn(summary);
+        when(openAIClientService.simplifyDocumentWithChunking(eq(extractedText), anyInt())).thenReturn(summary);
 
         mockMvc.perform(multipart("/upload")
                         .file(mockFile)
