@@ -8,6 +8,8 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ public class OpenAIClientServiceImpl implements OpenAIClientService {
     private static final String CONTENT = "content";
     private static final String CHOICES = "choices";
     private static final String MESSAGE = "message";
+    private static final String GPT_3_5_TURBO_16_K = "gpt-3.5-turbo-16k";
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
@@ -35,29 +38,53 @@ public class OpenAIClientServiceImpl implements OpenAIClientService {
         this.objectMapper = objectMapper;
     }
 
-    public String callOpenAI(String documentText) {
-        String prompt = LEGAL_DOCUMENT_PROMPT + documentText;
+    // Main chunking-based simplification method
+    public String simplifyDocumentWithChunking(String doc, int chunkSize) {
+        List<String> chunkedText = chunkText(doc, chunkSize);
+        if (chunkedText.size() == 1) {
+            // Only one chunk, no need to merge
+            String prompt = "Please simplify and summarize the following legal document:\\n\\n" + chunkedText.get(0);
+            return simplifyWithPrompt(prompt);
+        }
+        List<String> summaries = new ArrayList<>();
+        String previousSummary = "";
+        for (int i = 0; i < chunkedText.size(); i++) {
+            String chunk = chunkedText.get(i);
+            String prompt;
+            if (i == 0) {
+                prompt = "Please simplify and summarize the following legal document:\\n\\n" + chunk;
+            } else {
+                prompt = "You are an AI assistant.\nSummary of previous section:\n" + previousSummary + "\n\nNow simplify:\n" + chunk;
+            }
+            String summary = simplifyWithPrompt(prompt);
+            summaries.add(summary);
+            previousSummary = summary;
+        }
+        String mergedFinal = simplifyWithPrompt(
+                "Combine these summaries into a plain-English legal document explanation:\n" +
+                        String.join("\n\n", summaries)
+        );
+        return mergedFinal;
+    }
 
+    // Helper to call OpenAI with a custom prompt
+    protected String simplifyWithPrompt(String prompt) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(openAIApiKey);
 
         Map<String, Object> message = Map.of(ROLE, USER, CONTENT, prompt);
-
         Map<String, Object> requestBody = Map.of(
-                MODEL, GPT_4,
+                MODEL, GPT_3_5_TURBO_16_K,
                 MESSAGES, List.of(message),
                 TEMPERATURE, 0.2
         );
-
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
-
         ResponseEntity<String> response = restTemplate.postForEntity(
                 OPENAI_COM_V_1_CHAT_COMPLETIONS,
                 request,
                 String.class
         );
-
         return extractContentFromResponse(response.getBody());
     }
 
@@ -73,5 +100,18 @@ public class OpenAIClientServiceImpl implements OpenAIClientService {
             // Log error or handle as needed
         }
         return "Could not extract summary from OpenAI response.";
+    }
+
+    private List<String> chunkText(String fullText, int maxWordsPerChunk) {
+        String[] words = fullText.split("\\s+");
+        List<String> chunks = new ArrayList<>();
+
+        for (int i = 0; i < words.length; i += maxWordsPerChunk) {
+            int end = Math.min(i + maxWordsPerChunk, words.length);
+            String chunk = String.join(" ", Arrays.copyOfRange(words, i, end));
+            chunks.add(chunk);
+        }
+
+        return chunks;
     }
 }

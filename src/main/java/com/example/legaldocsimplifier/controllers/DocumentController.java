@@ -36,7 +36,7 @@ public class DocumentController {
         processingService.addUsage(ipUsage);
 
         String text = processingService.extractTextFromFile(file);
-        String summary = openAIClientService.callOpenAI(text);
+        String summary = openAIClientService.simplifyDocumentWithChunking(text, 4000);
         model.addAttribute("summary", summary);
         return "result";
     }
