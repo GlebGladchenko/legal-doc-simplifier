@@ -43,28 +43,41 @@ public class OpenAIClientServiceImpl implements OpenAIClientService {
         List<String> chunkedText = chunkText(doc, chunkSize);
         if (chunkedText.size() == 1) {
             // Only one chunk, no need to merge
-            String prompt = "Please simplify and summarize the following legal document:\\n\\n" + chunkedText.get(0);
+            String prompt = "You are a legal assistant. Simplify and summarize the following legal document in plain English.\n" +
+                    "At the end, include a section titled '⚠️ Potential Concerns' if any unusual or important details appear.\n\n" +
+                    chunkedText.get(0);
             return simplifyWithPrompt(prompt);
         }
+
         List<String> summaries = new ArrayList<>();
         String previousSummary = "";
+
         for (int i = 0; i < chunkedText.size(); i++) {
             String chunk = chunkedText.get(i);
             String prompt;
+
             if (i == 0) {
-                prompt = "Please simplify and summarize the following legal document:\\n\\n" + chunk;
+                prompt = "You are a legal assistant. Simplify and summarize the following legal section in plain English.\n" +
+                        "Include a section titled '⚠️ Potential Concerns' if needed.\n\n" +
+                        chunk;
             } else {
-                prompt = "You are an AI assistant.\nSummary of previous section:\n" + previousSummary + "\n\nNow simplify:\n" + chunk;
+                prompt = "You are a legal assistant.\n" +
+                        "Summary of the previous section:\n" + previousSummary + "\n\n" +
+                        "Now simplify and summarize this new section in plain English. " +
+                        "Also include a '⚠️ Potential Concerns' section if applicable.\n\n" +
+                        chunk;
             }
+
             String summary = simplifyWithPrompt(prompt);
             summaries.add(summary);
             previousSummary = summary;
         }
-        String mergedFinal = simplifyWithPrompt(
-                "Combine these summaries into a plain-English legal document explanation:\n" +
-                        String.join("\n\n", summaries)
-        );
-        return mergedFinal;
+
+        String mergedPrompt = "You are a legal assistant. Combine the following section summaries into a full plain-English explanation of the document.\n\n" +
+                "Include a final section at the end titled '⚠️ Potential Concerns' combining all important issues or red flags from the summaries.\n\n" +
+                String.join("\n\n", summaries);
+
+        return simplifyWithPrompt(mergedPrompt);
     }
 
     // Helper to call OpenAI with a custom prompt

@@ -2,6 +2,7 @@ package com.example.legaldocsimplifier.controllers;
 
 import com.example.legaldocsimplifier.models.IpUsage;
 import com.example.legaldocsimplifier.services.DocumentProcessingService;
+import com.example.legaldocsimplifier.services.EmailService;
 import com.example.legaldocsimplifier.services.OpenAIClientService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
@@ -15,10 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class DocumentController {
     private final DocumentProcessingService processingService;
     private final OpenAIClientService openAIClientService;
+    private final EmailService emailService;
 
-    public DocumentController(DocumentProcessingService processingService, OpenAIClientService openAIClientService) {
+    public DocumentController(DocumentProcessingService processingService,
+                              OpenAIClientService openAIClientService,
+                              EmailService emailService) {
         this.processingService = processingService;
         this.openAIClientService = openAIClientService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/upload")
@@ -87,8 +92,7 @@ public class DocumentController {
             @RequestParam String message,
             Model model
     ) {
-        // TODO: Send email or save to DB
-        System.out.printf("📬 Contact form received: %s (%s) - %s%n", name, email, message);
+        emailService.sendEmail(String.format("Name: %s, email: %s", name, email), message, email);
 
         model.addAttribute("success", true);
         return "contact";
