@@ -31,12 +31,12 @@ public class DocumentController {
         String ip = request.getRemoteAddr();
         IpUsage ipUsage = processingService.getOrCreateIpUsage(ip);
 
-        if (ipUsage.getUsageCount() >= ipUsage.getUsageLimit()) {
+        /*if (ipUsage.getUsageCount() >= ipUsage.getUsageLimit()) {
             // Set error message for modal and a flag to trigger modal display
             model.addAttribute("error", "You have used your free quota. Please upgrade.");
             model.addAttribute("showLimitModal", true);
             return "index";
-        }
+        }*/
 
         processingService.addUsage(ipUsage);
 
