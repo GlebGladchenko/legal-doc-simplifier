@@ -6,7 +6,6 @@ RUN gradle build -x test
 
 # Use a minimal JDK image to run the app
 FROM eclipse-temurin:17-jre
-VOLUME /tmp
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
 EXPOSE 8080
