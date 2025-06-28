@@ -88,14 +88,16 @@
     <div class="main-heading-container">
         <h1 class="main-heading">AI Legal Document Simplifier</h1>
     </div>
-
+    <h2>📝 Get AI-Powered Summaries of Long Legal Documents</h2>
     <div class="instructions">
-        <p><strong>Instantly translate complex legal documents into plain English using AI.</strong></p>
+        <p><strong>Instantly simplify complex legal documents into plain English using AI.</strong></p>
         <p>Upload your PDF or DOCX file and get a simplified, easy-to-understand version in seconds.</p>
         <ul>
-            <li>📄 Accepted formats: PDF, DOCX</li>
-            <li>🔐 Your file is processed securely — no data is stored</li>
-            <li>🎁 <strong>2 free simplifications</strong> — no account or signup needed</li>
+            <li>💡 <strong>Handles large legal files</strong> — even 50+ pages</li>
+            <li>⚙️ Powered by AI with advanced document chunking</li>
+            <li>🧾 PDF & DOCX supported — no copy-paste needed</li>
+            <li>🔒 Your file is processed securely — no data stored</li>
+            <li>🎁 2 free simplifications — no signup needed</li>
         </ul>
     </div>
 
@@ -106,12 +108,18 @@
         </div>
         <input type="file" id="file" name="file" required accept=".pdf,.doc,.docx,.txt" style="display:none;"/>
         <div id="file-name" class="file-name"></div>
+        <small style="display:block; text-align:center; margin-top:8px; color:#555;">
+            Max file size: 5MB
+        </small>
         <button type="submit">Simplify</button>
     </form>
+    <div class="footer-note" style="text-align:center; font-size: 0.9em; margin-top: 10px;">
+        ⚡ Built with OpenAI · No signup needed
+    </div>
     <div class="spinner-overlay" id="spinner-overlay" style="display:none;">
         <div>
             <div class="spinner"></div>
-            <div class="spinner-text">Processing, please wait...</div>
+            <div class="spinner-text">Analyzing large sections…</div>
         </div>
     </div>
 
