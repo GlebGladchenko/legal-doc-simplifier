@@ -135,6 +135,35 @@
         </div>
     </div>
 
+  <!-- Error Modal (custom style, similar to quota limit modal) -->
+    <div id="error-modal" class="modal-overlay" th:data-show="${showErrorModal}" style="display:none;">
+        <div class="modal-content">
+            <span id="close-error-modal-btn" class="modal-close">&times;</span>
+            <h3 class="modal-title">Error</h3>
+            <p class="modal-message" th:text="${error}">An error occurred. Please try again.</p>
+        </div>
+    </div>
+    <script>
+        // Show the error modal if showErrorModal is true
+        document.addEventListener("DOMContentLoaded", function() {
+            var errorModal = document.getElementById("error-modal");
+            if (errorModal && errorModal.getAttribute("data-show") === "true") {
+                errorModal.style.display = "block";
+            }
+            var closeBtn = document.getElementById("close-error-modal-btn");
+            if (closeBtn) {
+                closeBtn.onclick = function() {
+                    errorModal.style.display = "none";
+                };
+            }
+            // Optional: close modal when clicking outside content
+            window.onclick = function(event) {
+                if (event.target === errorModal) {
+                    errorModal.style.display = "none";
+                }
+            };
+        });
+    </script>
     <footer class="footer-links">
         <a href="/terms">Terms</a> |
         <a href="/privacy">Privacy Policy</a> |

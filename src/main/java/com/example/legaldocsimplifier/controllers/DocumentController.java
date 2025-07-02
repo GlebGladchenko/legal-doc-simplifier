@@ -40,7 +40,14 @@ public class DocumentController {
 
         processingService.addUsage(ipUsage);
 
-        String text = processingService.extractTextFromFile(file);
+        String text;
+        try {
+            text = processingService.extractTextFromFile(file);
+        } catch (IllegalArgumentException ex) {
+            model.addAttribute("error", ex.getMessage() != null ? ex.getMessage() : "Invalid or unsupported file uploaded.");
+            model.addAttribute("showErrorModal", true); // Optional: trigger error modal in UI
+            return "index";
+        }
         String summary = openAIClientService.simplifyDocumentWithChunking(text, 4000);
         model.addAttribute("summary", summary);
         return "result";
