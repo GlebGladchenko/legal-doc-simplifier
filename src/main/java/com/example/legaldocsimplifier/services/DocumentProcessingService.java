@@ -1,6 +1,7 @@
 package com.example.legaldocsimplifier.services;
 
 import com.example.legaldocsimplifier.models.IpUsage;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -32,4 +33,6 @@ public interface DocumentProcessingService {
      * @param ipUsage the IpUsage record to update
      */
     void addUsage(IpUsage ipUsage);
+
+    MultipartFile toMultipartFile(Resource resource, String fileName, String contentType);
 }

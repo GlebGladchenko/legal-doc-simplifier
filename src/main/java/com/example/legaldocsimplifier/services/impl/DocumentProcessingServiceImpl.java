@@ -4,9 +4,11 @@ import com.example.legaldocsimplifier.dao.IpUsageRepository;
 import com.example.legaldocsimplifier.models.IpUsage;
 import com.example.legaldocsimplifier.services.DocumentProcessingService;
 import com.example.legaldocsimplifier.services.DocumentTextExtractionService;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.*;
 import java.time.LocalDateTime;
 
 @Service
@@ -65,5 +67,39 @@ public class DocumentProcessingServiceImpl implements DocumentProcessingService 
         ipUsage.setUsageCount(ipUsage.getUsageCount() + 1);
         ipUsage.setLastUsed(LocalDateTime.now());
         ipUsageRepository.save(ipUsage);
+    }
+
+    public MultipartFile toMultipartFile(Resource resource, String fileName, String contentType) {
+        byte[] content = null;
+        try {
+            content = resource.getInputStream().readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        byte[] finalContent = content;
+        return new MultipartFile() {
+            @Override public String getName() { return "file"; }
+
+            @Override public String getOriginalFilename() { return fileName; }
+
+            @Override public String getContentType() { return contentType; }
+
+            @Override public boolean isEmpty() { return finalContent.length == 0; }
+
+            @Override public long getSize() { return finalContent.length; }
+
+            @Override public byte[] getBytes() { return finalContent; }
+
+            @Override public InputStream getInputStream() {
+                return new ByteArrayInputStream(finalContent);
+            }
+
+            @Override public void transferTo(File dest) throws IOException {
+                try (OutputStream os = new FileOutputStream(dest)) {
+                    os.write(finalContent);
+                }
+            }
+        };
     }
 }

@@ -101,18 +101,43 @@
         </ul>
     </div>
 
-    <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
-        <label for="file">Choose file:</label>
-        <div id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drag and drop your file here or click to select">
-            Drag &amp; drop your file here or click to select
-        </div>
-        <input type="file" id="file" name="file" required accept=".pdf,.doc,.docx,.txt" style="display:none;"/>
-        <div id="file-name" class="file-name"></div>
-        <small style="display:block; text-align:center; margin-top:8px; color:#555;">
-            Max file size: 5MB
-        </small>
-        <button type="submit">Simplify</button>
-    </form>
+<form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+    <label for="file">Choose file:</label>
+    <div id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drag and drop your file here or click to select">
+        Drag &amp; drop your file here or click to select
+    </div>
+    <input type="file" id="file" name="file" required accept=".pdf,.doc,.docx,.txt" style="display:none;"/>
+
+    <div style="margin: 10px 0; display: flex; align-items: center;">
+        <input type="checkbox" name="useSample" id="useSample" style="margin-right: 8px; width: 10%;" />
+        <label for="useSample" style="font-size: 0.95em; margin: 0;">
+            I don’t have a document — try with a sample NDA.
+        </label>
+    </div>
+
+    <div id="file-name" class="file-name"></div>
+    <small style="display:block; text-align:center; margin-top:8px; color:#555;">
+        Max file size: 5MB
+    </small>
+    <button type="submit">Simplify</button>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const useSampleCheckbox = document.getElementById('useSample');
+    const fileInput = document.getElementById('file');
+
+    if (useSampleCheckbox && fileInput) {
+        useSampleCheckbox.addEventListener('change', function() {
+            if (useSampleCheckbox.checked) {
+                fileInput.removeAttribute('required');
+            } else {
+                fileInput.setAttribute('required', 'required');
+            }
+        });
+    }
+});
+</script>
     <div class="footer-note" style="text-align:center; font-size: 0.9em; margin-top: 10px;">
         ⚡ Built with OpenAI · No signup needed
     </div>
