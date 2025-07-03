@@ -1,32 +1,12 @@
 package com.example.legaldocsimplifier.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
-
-@Service
-public class EmailService {
-    private final JavaMailSender mailSender;
-
-    @Value("${spring.mail.to}")
-    private String setTo;
-    @Value("${spring.mail.from}")
-    private String setFrom;
-
-    @Autowired
-    public EmailService(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    public void sendEmail(String subject, String text, String userEmail) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(setTo);
-        message.setSubject(subject);
-        message.setText(text);
-        message.setFrom(setFrom);
-        message.setReplyTo(userEmail);
-        mailSender.send(message);
-    }
+public interface EmailService {
+    /**
+     * Sends an email with the specified subject and text, setting the reply-to address to the user's email.
+     *
+     * @param subject   the subject of the email
+     * @param text      the body content of the email
+     * @param userEmail the email address of the user to be set as the reply-to address
+     */
+    void sendEmail(String subject, String text, String userEmail);
 }

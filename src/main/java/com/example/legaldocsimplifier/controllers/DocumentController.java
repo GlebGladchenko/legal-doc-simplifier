@@ -7,6 +7,7 @@ import com.example.legaldocsimplifier.services.OpenAIClientService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,10 @@ public class DocumentController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) throws Exception {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam(value = "useSample", required = false) String useSample,
+                                   HttpServletRequest request,
+                                   Model model) throws Exception {
         String ip = request.getRemoteAddr();
         IpUsage ipUsage = processingService.getOrCreateIpUsage(ip);
 
@@ -40,14 +44,20 @@ public class DocumentController {
 
         processingService.addUsage(ipUsage);
 
+        if ("on".equals(useSample)) {
+            ClassPathResource sample = new ClassPathResource("static/sample-nda.pdf");
+            file = processingService.toMultipartFile(sample, "sample-nda.pdf", "application/pdf");
+        }
+
         String text;
         try {
             text = processingService.extractTextFromFile(file);
         } catch (IllegalArgumentException ex) {
             model.addAttribute("error", ex.getMessage() != null ? ex.getMessage() : "Invalid or unsupported file uploaded.");
-            model.addAttribute("showErrorModal", true); // Optional: trigger error modal in UI
+            model.addAttribute("showErrorModal", true);
             return "index";
         }
+
         String summary = openAIClientService.simplifyDocumentWithChunking(text, 4000);
         model.addAttribute("summary", summary);
         return "result";
