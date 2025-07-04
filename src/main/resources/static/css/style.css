@@ -5,7 +5,7 @@ body {
     padding: 0;
 }
 .container {
-    max-width: 400px;
+    max-width: 550px;
     margin: 60px auto;
     background: #fff;
     padding: 32px 24px 24px 24px;
@@ -32,7 +32,7 @@ input[type="file"] {
     margin-bottom: 16px;
 }
 button {
-    width: 100%;
+    width: 70%;
     padding: 10px;
     background: #1976d2;
     color: #fff;
@@ -359,7 +359,7 @@ pre {
 }
 
 .contact-container {
-    max-width: 600px;
+    max-width: 400px;
     background: #fff;
     padding: 36px 32px 32px 32px;
     margin: 48px auto 32px auto;
@@ -441,6 +441,7 @@ form textarea {
     padding: 36px 32px 32px 32px;
     border-radius: 10px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    display: block;
 }
 .disclaimer-container h1 {
     text-align: center;
@@ -541,4 +542,12 @@ form textarea {
         font-size: 1.3em;
         white-space: normal;
     }
+}
+
+.center-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 18px;
+    margin-bottom: 0;
 }
