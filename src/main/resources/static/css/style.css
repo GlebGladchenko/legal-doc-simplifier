@@ -5,7 +5,7 @@ body {
     padding: 0;
 }
 .container {
-    max-width: 400px;
+    max-width: 600px;
     margin: 60px auto;
     background: #fff;
     padding: 32px 24px 24px 24px;
@@ -32,6 +32,10 @@ input[type="file"] {
     margin-bottom: 16px;
 }
 button {
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     width: 100%;
     padding: 10px;
     background: #1976d2;
@@ -398,6 +402,10 @@ form textarea {
     max-height: 300px;
 }
 .submit-btn {
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     margin-top: 18px;
     background-color: #1976d2;
     color: white;
@@ -540,5 +548,16 @@ form textarea {
     .main-heading {
         font-size: 1.3em;
         white-space: normal;
+    }
+
+    p {
+        max-width: 75ch; /* limits to ~75 characters per line for readability */
+        margin: 0 auto;   /* center paragraphs if narrower than container */
+    }
+
+    @media (min-width: 768px) {
+        .container {
+            max-width: 800px;
+        }
     }
 }
