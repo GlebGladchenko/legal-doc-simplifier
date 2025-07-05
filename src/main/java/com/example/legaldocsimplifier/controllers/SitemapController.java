@@ -22,7 +22,7 @@ public class SitemapController {
         sb.append(url(baseUrl + "/disclaimer", "yearly", "0.3"));
         sb.append(url(baseUrl + "/contact", "monthly", "0.5"));
 
-        // Stripe pages (low priority, but crawlable if needed)
+        // Stripe pages
         sb.append(url(baseUrl + "/success", "monthly", "0.2"));
         sb.append(url(baseUrl + "/cancel", "monthly", "0.2"));
 
@@ -31,6 +31,8 @@ public class SitemapController {
         sb.append(url(baseUrl + "/blog/how-to-understand-legal-documents", "monthly", "0.6"));
         sb.append(url(baseUrl + "/blog/simplify-lease-agreement-ai", "monthly", "0.6"));
         sb.append(url(baseUrl + "/blog/ai-to-spot-nda-red-flags", "monthly", "0.6"));
+        sb.append(url(baseUrl + "/blog/contract-jargon-explained", "monthly", "0.6"));
+        sb.append(url(baseUrl + "/blog/freelance-contract-tips", "monthly", "0.6"));
 
         sb.append("</urlset>");
         return sb.toString();

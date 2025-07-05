@@ -1,32 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Understand Legal Documents Without a Lawyer | AI Guide</title>
-    <!-- Open Graph -->
-    <meta property="og:title" content="How to Understand Legal Documents Without a Lawyer" />
-    <meta property="og:description" content="Learn how to simplify NDAs, leases, and contracts using AI tools — no signup needed." />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://novalegal.org/blog/how-to-understand-legal-documents" />
-    <meta property="og:image" content="https://novalegal.org/images/blog/understand-legal-docs.png" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How to Understand Legal Documents Without a Lawyer" />
-    <meta name="twitter:description" content="Use AI to decode legal documents in seconds — free, no signup required." />
-    <meta name="twitter:image" content="https://novalegal.org/images/blog/understand-legal-docs.png" />
-    <meta name="description" content="Confused by contracts, NDAs, or lease agreements? Learn how to simplify legal documents instantly using AI — no lawyer required.">
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-9CPYZFS7DN');
-    </script>
+<head th:replace="fragments/head :: commonHead(
+    'How to Understand Legal Documents Without a Lawyer',
+    'Learn how to simplify NDAs, leases, and contracts using AI tools — no signup needed.',
+    'https://novalegal.org/images/blog/understand-legal-docs.png',
+    'https://novalegal.org/blog/how-to-understand-legal-documents',
+    ${jsonLd}
+)">
 </head>
 <body>
 <div class="container">
@@ -115,7 +95,11 @@
         <hr style="margin-top: 40px;">
         <footer style="font-size: 0.9em; color: #777;">
             <p><strong>Tags:</strong> legal AI, simplify contracts, NDA explanation, understand lease agreement, AI legal tool</p>
-            <p>© 2025 NovaSyntax LLC</p>
+            <p>
+                © 2025 NovaSyntax LLC ·
+                <a href="/">Back to Home</a> ·
+                <a href="/blog">More Blog Articles</a>
+            </p>
         </footer>
     </main>
 </div>

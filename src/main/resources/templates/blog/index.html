@@ -1,19 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Blog | Understand Legal Documents with AI</title>
-    <meta name="description" content="Learn how to simplify contracts, NDAs, leases and more using AI. No signup needed. Explore our blog for guides and tips.">
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-9CPYZFS7DN');
-    </script>
+<head th:replace="fragments/head :: commonHead(
+    'Blog | Understand Legal Documents with AI',
+    'Learn how to simplify contracts, NDAs, leases and more using AI. No signup needed. Explore our blog for guides and tips.',
+    'https://novalegal.org/images/seo/blog-overview.png',
+    'https://novalegal.org/blog',
+    ${jsonLd}
+)">
 </head>
 <body>
 <div class="container">
@@ -54,6 +47,28 @@
                 </h2>
                 <p>
                     NDAs can contain sneaky clauses. Learn how to use AI to detect risky language like IP surrender, perpetual obligations, and more.
+                </p>
+            </article>
+
+            <article class="blog-post">
+                <h2>
+                    <a href="/blog/contract-jargon-explained">
+                        Contract Jargon Decoded: 10 Legal Terms You Should Never Ignore
+                    </a>
+                </h2>
+                <p>
+                    Don't sign blindly — understand what terms like "indemnify", "force majeure", and "severability" really mean. This guide breaks down legal jargon in plain English, with real examples.
+                </p>
+            </article>
+
+            <article class="blog-post">
+                <h2>
+                    <a href="/blog/freelance-contract-tips">
+                        Freelance Contracts: What to Look For Before You Sign
+                    </a>
+                </h2>
+                <p>
+                    Don’t sign blindly — this guide explains the 7 contract terms every freelancer should understand. Learn how to use AI to review contracts before you commit.
                 </p>
             </article>
         </section>
