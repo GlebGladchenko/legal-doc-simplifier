@@ -1,0 +1,38 @@
+<!-- /templates/fragments/head.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="commonHead(title, description, imageUrl, pageUrl, jsonLd)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title th:text="${title}">Blog Post</title>
+    <meta name="description" th:content="${description}"/>
+
+    <!-- Open Graph -->
+    <meta property="og:title" th:content="${title}" />
+    <meta property="og:description" th:content="${description}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" th:content="${pageUrl}" />
+    <meta property="og:image" th:content="${imageUrl}" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" th:content="${title}" />
+    <meta name="twitter:description" th:content="${description}" />
+    <meta name="twitter:image" th:content="${imageUrl}" />
+
+    <!-- ✅ Structured Data -->
+    <script type="application/ld+json" th:utext="${jsonLd}"></script>
+
+    <!-- ✅ Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-9CPYZFS7DN');
+    </script>
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
+</head>

@@ -1,32 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Simplify Your Lease Agreement Using AI (Free Tools)</title>
-    <!-- Open Graph -->
-    <meta property="og:title" content="Simplify Your Lease Agreement Using AI (Free Tools)" />
-    <meta property="og:description" content="Use AI to simplify lease agreements, understand key clauses, and avoid hidden fees — no lawyer needed." />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://novalegal.org/blog/simplify-lease-agreement-ai" />
-    <meta property="og:image" content="https://novalegal.org/images/blog/lease-preview.png" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Simplify Your Lease Agreement Using AI (Free Tools)" />
-    <meta name="twitter:description" content="Decode your rental agreement using free AI. Find red flags before you sign." />
-    <meta name="twitter:image" content="https://novalegal.org/images/blog/lease-preview.png" />
-    <meta name="description" content="Renting an apartment? Use AI to simplify lease agreements, understand key clauses, and avoid hidden fees — no lawyer needed.">
-    <link rel="canonical" href="https://novalegal.org/blog/simplify-lease-agreement-ai" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-9CPYZFS7DN');
-    </script>
+<head th:replace="fragments/head :: commonHead(
+    'Simplify Your Lease Agreement Using AI (Free Tools)',
+    'Renting an apartment? Learn how to use AI to decode your lease, highlight red flags, and avoid costly mistakes.',
+    'https://novalegal.org/images/blog/lease-agreement.png',
+    'https://novalegal.org/blog/simplify-lease-agreement-ai',
+    ${jsonLd}
+)">
 </head>
 <body>
 <div class="container">
@@ -115,7 +95,11 @@
         <hr style="margin-top: 40px;">
         <footer style="font-size: 0.9em; color: #777;">
             <p><strong>Tags:</strong> lease agreement AI, rental contract, simplify lease, tenant rights, legal document summarizer</p>
-            <p>© 2025 NovaSyntax LLC · <a href="/">Back to Home</a></p>
+            <p>
+                © 2025 NovaSyntax LLC ·
+                <a href="/">Back to Home</a> ·
+                <a href="/blog">More Blog Articles</a>
+            </p>
         </footer>
     </main>
 </div>

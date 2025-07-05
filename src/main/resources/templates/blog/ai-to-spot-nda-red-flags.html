@@ -1,31 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>How to Spot Red Flags in an NDA with AI</title>
-    <!-- Open Graph -->
-    <meta property="og:title" content="How to Spot Red Flags in an NDA with AI" />
-    <meta property="og:description" content="NDAs may hide risky clauses. Learn how to use AI to detect IP surrender, non-compete terms, and perpetual obligations." />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://novalegal.org/blog/ai-to-spot-nda-red-flags" />
-    <meta property="og:image" content="https://novalegal.org/images/blog/nda-red-flags.png" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How to Spot Red Flags in an NDA with AI" />
-    <meta name="twitter:description" content="AI can catch the legal traps in NDAs — before you sign. Try it now for free." />
-    <meta name="twitter:image" content="https://novalegal.org/images/blog/nda-red-flags.png" />
-    <meta name="description" content="NDAs may hide risky clauses. Learn how to use AI to scan for red flags like IP surrender, non-compete terms, and perpetual obligations.">
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-9CPYZFS7DN');
-    </script>
+<head th:replace="fragments/head :: commonHead(
+    'How to Spot Red Flags in an NDA with AI',
+    'NDAs may hide risky clauses. Learn how to use AI to detect IP surrender, non-compete terms, and perpetual obligations.',
+    'https://novalegal.org/images/blog/nda-red-flags.png',
+    'https://novalegal.org/blog/ai-to-spot-nda-red-flags',
+    ${jsonLd}
+)">
 </head>
 <body>
 <div class="container">
@@ -111,7 +92,11 @@
         <hr style="margin-top: 40px;">
         <footer style="font-size: 0.9em; color: #777;">
             <p><strong>Tags:</strong> NDA AI tool, red flags in NDA, simplify NDA, IP rights in NDA, perpetual confidentiality</p>
-            <p>© 2025 NovaSyntax LLC · <a href="/">Back to Home</a></p>
+            <p>
+                © 2025 NovaSyntax LLC ·
+                <a href="/">Back to Home</a> ·
+                <a href="/blog">More Blog Articles</a>
+            </p>
         </footer>
     </main>
 </div>
