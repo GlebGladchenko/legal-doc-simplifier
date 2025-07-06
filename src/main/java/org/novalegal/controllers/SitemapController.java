@@ -7,6 +7,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SitemapController {
 
+    @GetMapping(value = "/robots.txt", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getRobotsTxt() {
+        return """
+                User-agent: *
+                Allow: /
+
+                Sitemap: https://novalegal.org/sitemap.xml
+                """;
+    }
+
     @GetMapping(value = "/sitemap.xml", produces = MediaType.APPLICATION_XML_VALUE)
     public String getSitemap() {
         String baseUrl = "https://novalegal.org";
