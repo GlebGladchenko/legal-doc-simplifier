@@ -3,14 +3,9 @@
 <head>
     <title>Simplified Document Result</title>
     <meta charset="UTF-8">
-
-    <!-- Responsive Meta Tag -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
-
-    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -20,24 +15,34 @@
     </script>
 </head>
 <body>
-<div class="container result-container">
-    <h2>Document Simplified!</h2>
-    <div class="summary-label">Here is your simplified summary:</div>
-    <pre th:text="${summary}">Summary will appear here</pre>
-    <div class="actions">
-        <a href="/" class="button">Upload Another Document</a>
+<section class="section is-medium has-background-light">
+  <div class="container" style="max-width: 700px;">
+    <div class="box mt-6">
+      <h2 class="title is-3 has-text-link has-text-centered mb-4">Document Simplified!</h2>
+      <div class="subtitle is-5 has-text-centered mb-3">Here is your simplified summary:</div>
+      <pre class="content" th:text="${summary}">Summary will appear here</pre>
+      <div class="has-text-centered mt-5">
+        <a href="/" class="button is-link is-medium">
+          <span class="icon"><i class="fas fa-upload"></i></span>
+          <span>Upload Another Document</span>
+        </a>
+      </div>
     </div>
-</div>
-
-<footer class="footer-links">
-    <a href="/terms">Terms</a> |
-    <a href="/privacy">Privacy Policy</a> |
-    <a href="/disclaimer">Disclaimer</a> |
-    <a href="/contact">Contact</a> |
-    <a href="/blog">Blog</a>
-    <div style="margin-top: 40px; font-size: 0.85em; color: #777;">
-        © 2025 NovaSyntax LLC. All rights reserved.
-    </div>
+  </div>
+</section>
+<footer class="footer mt-6">
+  <div class="content has-text-centered">
+    <p>
+      <a href="/terms">Terms</a> |
+      <a href="/privacy">Privacy Policy</a> |
+      <a href="/disclaimer">Disclaimer</a> |
+      <a href="/contact">Contact</a> |
+      <a href="/blog">Blog</a>
+    </p>
+    <p class="is-size-7 has-text-grey mt-4">
+      © 2025 NovaSyntax LLC. All rights reserved.
+    </p>
+  </div>
 </footer>
 </body>
 </html>
