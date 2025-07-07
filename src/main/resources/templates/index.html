@@ -6,7 +6,7 @@
     <meta name="description" content="Use AI to simplify legal documents like leases, NDAs, and contracts. Understand your lease or agreement instantly — no signup required." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Open Graph for better social previews -->
+    <!-- Open Graph for social sharing -->
     <meta property="og:title" content="Simplify Legal Documents with AI – Free & No Signup Needed" />
     <meta property="og:description" content="Use our AI tool to simplify leases, NDAs, and legal contracts. Understand your lease or decode legalese instantly — no email or login required." />
     <meta property="og:type" content="website" />
@@ -22,211 +22,265 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://novalegal.org/" />
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
-    <script>
-        function showFileName(input) {
-            const fileNameSpan = document.getElementById('file-name');
-            const maxSizeMB = 5;
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
 
-            if (input.files && input.files.length > 0) {
-                const file = input.files[0];
-                if (file.size > maxSizeMB * 1024 * 1024) {
-                    alert("❌ File too large. Maximum allowed size is " + maxSizeMB + "MB.");
-                    input.value = ""; // Reset file input
-                    fileNameSpan.textContent = "";
-                    return;
-                }
+    <!-- Responsive Button Tweak -->
+    <style>
+        @media (max-width: 480px) {
+          .button.is-medium {
+            font-size: 1rem;
+            padding: 0.75rem;
+          }
+        }
+        .footer {
+          margin-bottom: 2rem;
+        }
+    </style>
 
-                fileNameSpan.textContent = "Selected file: " + file.name;
-            } else {
-                fileNameSpan.textContent = "";
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "NovaLegal AI Document Simplifier",
+            "operatingSystem": "All",
+            "applicationCategory": "LegalApplication",
+            "description": "Simplify legal documents like leases, NDAs, and contracts using AI. No login required.",
+            "url": "https://novalegal.org",
+            "publisher": {
+                "@type": "Organization",
+                "name": "NovaSyntax LLC"
             }
         }
-
-        window.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
-            const spinnerOverlay = document.getElementById('spinner-overlay');
-            if (form) {
-                form.addEventListener('submit', function() {
-                    spinnerOverlay.style.display = 'flex';
-                });
-            }
-
-            const dropZone = document.getElementById('drop-zone');
-            const fileInput = document.getElementById('file');
-            const fileNameSpan = document.getElementById('file-name');
-
-            if (dropZone && fileInput) {
-                dropZone.addEventListener('click', function() {
-                    fileInput.click();
-                });
-
-                dropZone.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    dropZone.classList.add('dragover');
-                });
-
-                dropZone.addEventListener('dragleave', function(e) {
-                    e.preventDefault();
-                    dropZone.classList.remove('dragover');
-                });
-
-                dropZone.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    dropZone.classList.remove('dragover');
-                    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-                        fileInput.files = e.dataTransfer.files;
-                        showFileName(fileInput);
-                    }
-                });
-
-                fileInput.addEventListener('change', function() {
-                    showFileName(fileInput);
-                });
-            }
-
-            const modal = document.getElementById('limit-modal');
-            if (modal && modal.dataset.show === "true") {
-                modal.style.display = 'flex';
-            }
-            const closeBtn = document.getElementById('close-modal-btn');
-            if (closeBtn) {
-                closeBtn.onclick = function() {
-                    modal.style.display = 'none';
-                }
-            }
-            window.onclick = function(event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            }
-        });
     </script>
-    <!-- Google tag (gtag.js) -->
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-9CPYZFS7DN');
     </script>
 </head>
 <body>
-<div class="container">
-    <div class="main-heading-container">
-        <h1 class="main-heading">Simplify Legal Documents with AI</h1>
-    </div>
-    <h2>📝 Understand Your Lease, NDA, or Contract in Plain English</h2>
-    <div class="instructions">
-        <p><strong>Use our AI-powered legal document review tool to simplify complex agreements, understand lease terms, and convert legal jargon into plain English — no signup required.</strong></p>
-        <p>Upload your PDF or DOCX file and get a simplified, easy-to-understand version in seconds.</p>
-        <ul>
-            <li>💡 <strong>Handles large legal files</strong> — even 50+ pages</li>
-            <li>⚙️ Powered by AI with advanced document chunking</li>
-            <li>🧾 PDF & DOCX supported — no copy-paste needed</li>
-            <li>🔒 Your file is processed securely — no data stored</li>
-            <li>🎁 Free for now — Paid features coming soon</li>
-        </ul>
-    </div>
-
-<form method="post" enctype="multipart/form-data" th:action="@{/upload}">
-    <label for="file">Choose file:</label>
-    <div id="drop-zone" class="drop-zone" tabindex="0" aria-label="Drag and drop your file here or click to select">
-        Drag &amp; drop your file here or click to select
-    </div>
-    <input type="file" id="file" name="file" required accept=".pdf,.doc,.docx,.txt" style="display:none;"/>
-
-    <div style="margin: 10px 0; display: flex; align-items: center;">
-        <input type="checkbox" name="useSample" id="useSample" style="margin-right: 8px; width: 10%;" />
-        <label for="useSample" style="font-size: 0.95em; margin: 0;">
-            I don’t have a document — try with a sample NDA.
-        </label>
-    </div>
-
-    <div id="file-name" class="file-name"></div>
-    <small style="display:block; text-align:center; margin-top:8px; color:#555;">
-        Max file size: 5MB
-    </small>
-    <button type="submit">Simplify</button>
-</form>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const useSampleCheckbox = document.getElementById('useSample');
-    const fileInput = document.getElementById('file');
-
-    if (useSampleCheckbox && fileInput) {
-        useSampleCheckbox.addEventListener('change', function() {
-            if (useSampleCheckbox.checked) {
-                fileInput.removeAttribute('required');
-            } else {
-                fileInput.setAttribute('required', 'required');
-            }
-        });
-    }
-});
-</script>
-    <div class="footer-note" style="text-align:center; font-size: 0.9em; margin-top: 10px;">
-        ⚡ Built with OpenAI · No signup needed
-    </div>
-    <div class="spinner-overlay" id="spinner-overlay" style="display:none;">
-        <div>
-            <div class="spinner"></div>
-            <div class="spinner-text">Analyzing large sections…</div>
+<section class="section is-medium has-background-light">
+    <div class="container px-4" style="max-width: 100%; max-width: 600px;">
+        <div class="has-text-centered mb-5">
+            <h1 class="title is-2 has-text-link">Simplify Legal Documents with AI</h1>
+            <h2 class="subtitle is-4">📝 Understand Your Lease, NDA, or Contract in Plain English</h2>
         </div>
-    </div>
 
-    <!-- Modal for quota limit -->
-    <div id="limit-modal" class="modal-overlay" th:data-show="${showLimitModal}" style="display:none;">
-        <div class="modal-content">
-            <span id="close-modal-btn" class="modal-close">&times;</span>
-            <h3 class="modal-title">Limit Reached</h3>
-            <p class="modal-message" th:text="${error}">You have used your free quota. Please upgrade.</p>
-            <form method="post" action="/api/payment/create-checkout-session">
-                <button type="submit" class="pay-btn">Upgrade Now</button>
-            </form>
+        <div class="notification is-info is-light mb-5">
+            <strong>Use our AI-powered legal document review tool to simplify complex agreements, understand lease terms, and convert legal jargon into plain English — no signup required.</strong>
+            <br>Upload your PDF or DOCX file and get a simplified, easy-to-understand version in seconds.
+            <ul class="mt-3" style="margin-left: 1.2em;">
+                <li>💡 <strong>Handles large legal files</strong> — even 50+ pages</li>
+                <li>⚙️ Powered by AI with advanced document chunking</li>
+                <li>🧾 PDF & DOCX supported — no copy-paste needed</li>
+                <li>🔒 Your file is processed securely — no data stored</li>
+                <li>🎁 Free for now — Paid features coming soon</li>
+            </ul>
         </div>
-    </div>
 
-  <!-- Error Modal (custom style, similar to quota limit modal) -->
-    <div id="error-modal" class="modal-overlay" th:data-show="${showErrorModal}" style="display:none;">
-        <div class="modal-content">
-            <span id="close-error-modal-btn" class="modal-close">&times;</span>
-            <h3 class="modal-title">Error</h3>
-            <p class="modal-message" th:text="${error}">An error occurred. Please try again.</p>
-        </div>
-    </div>
-    <script>
-        // Show the error modal if showErrorModal is true
-        document.addEventListener("DOMContentLoaded", function() {
-            var errorModal = document.getElementById("error-modal");
-            if (errorModal && errorModal.getAttribute("data-show") === "true") {
-                errorModal.style.display = "block";
-            }
-            var closeBtn = document.getElementById("close-error-modal-btn");
-            if (closeBtn) {
+        <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+            <div class="field mb-4">
+                <label class="label" for="file">Choose file:</label>
+                <div id="drop-zone"
+                     class="box has-background-white has-text-link has-text-centered py-6 mb-2"
+                     role="button"
+                     tabindex="0"
+                     aria-pressed="false"
+                     aria-label="Drag and drop your file here or click to select"
+                     onclick="document.getElementById('file').click();"
+                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); document.getElementById('file').click();}">
+                    <span class="is-size-6">Drag &amp; drop your file here or click to select</span>
+                </div>
+                <input class="file-input" type="file" id="file" name="file" required accept=".pdf,.doc,.docx,.txt" style="display:none;"/>
+            </div>
+
+            <div class="field mb-2">
+                <div class="control">
+                    <label class="checkbox">
+                        <input type="checkbox" name="useSample" id="useSample" style="width: 1.2em; height: 1.2em; vertical-align: middle; margin-right: 0.5em;" />
+                        <span class="is-size-6">I don’t have a document — try with a sample NDA.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div id="file-name" class="has-text-info mb-2"></div>
+            <p class="has-text-grey is-size-7 has-text-centered mb-4">Max file size: 5MB</p>
+
+            <div class="field has-text-centered">
+                <button class="button is-link is-medium is-fullwidth" type="submit">
+                    <span class="icon"><i class="fas fa-magic"></i></span>
+                    <span>Simplify</span>
+                </button>
+            </div>
+        </form>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              const useSampleCheckbox = document.getElementById('useSample');
+              const fileInput = document.getElementById('file');
+              if (useSampleCheckbox && fileInput) {
+                useSampleCheckbox.addEventListener('change', function() {
+                  if (useSampleCheckbox.checked) {
+                    fileInput.removeAttribute('required');
+                  } else {
+                    fileInput.setAttribute('required', 'required');
+                  }
+                });
+              }
+
+              const form = document.querySelector('form');
+              const spinnerOverlay = document.getElementById('spinner-overlay');
+              if (form) {
+                form.addEventListener('submit', function() {
+                  spinnerOverlay.classList.add('is-active');
+                });
+              }
+
+              const dropZone = document.getElementById('drop-zone');
+              if (dropZone && fileInput) {
+                dropZone.addEventListener('dragover', function(e) {
+                  e.preventDefault();
+                  dropZone.classList.add('has-background-link-light');
+                });
+                dropZone.addEventListener('dragleave', function(e) {
+                  e.preventDefault();
+                  dropZone.classList.remove('has-background-link-light');
+                });
+                dropZone.addEventListener('drop', function(e) {
+                  e.preventDefault();
+                  dropZone.classList.remove('has-background-link-light');
+                  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    fileInput.files = e.dataTransfer.files;
+                    showFileName(fileInput);
+                  }
+                });
+                fileInput.addEventListener('change', function() {
+                  showFileName(fileInput);
+                });
+              }
+
+              const modal = document.getElementById('limit-modal');
+              if (modal && modal.dataset.show === "true") {
+                modal.classList.add('is-active');
+              }
+
+              const closeBtn = document.getElementById('close-modal-btn');
+              if (closeBtn) {
                 closeBtn.onclick = function() {
-                    errorModal.style.display = "none";
-                };
-            }
-            // Optional: close modal when clicking outside content
-            window.onclick = function(event) {
-                if (event.target === errorModal) {
-                    errorModal.style.display = "none";
+                  modal.classList.remove('is-active');
                 }
-            };
-        });
-    </script>
-    <footer class="footer-links">
-        <a href="/terms">Terms</a> |
-        <a href="/privacy">Privacy Policy</a> |
-        <a href="/disclaimer">Disclaimer</a> |
-        <a href="/contact">Contact</a> |
-        <a href="/blog">Blog</a>
-        <div style="margin-top: 40px; font-size: 0.85em; color: #777;">
-            © 2025 NovaSyntax LLC. All rights reserved.
+              }
+
+              window.onclick = function(event) {
+                if (event.target === modal) {
+                  modal.classList.remove('is-active');
+                }
+              }
+            });
+
+            function showFileName(input) {
+              const fileNameSpan = document.getElementById('file-name');
+              const maxSizeMB = 5;
+              if (input.files && input.files.length > 0) {
+                const file = input.files[0];
+                if (file.size > maxSizeMB * 1024 * 1024) {
+                  alert("❌ File too large. Maximum allowed size is " + maxSizeMB + "MB.");
+                  input.value = "";
+                  fileNameSpan.textContent = "";
+                  return;
+                }
+                fileNameSpan.textContent = "Selected file: " + file.name;
+              } else {
+                fileNameSpan.textContent = "";
+              }
+            }
+        </script>
+
+        <div class="has-text-centered mt-5 mb-3">
+            <span class="is-size-6">⚡ Built with OpenAI · No signup needed</span>
         </div>
-    </footer>
-</div>
+
+        <!-- Spinner Modal -->
+        <div class="modal" id="spinner-overlay">
+            <div class="modal-background"></div>
+            <div class="modal-content has-text-centered">
+                <span class="icon is-large"><i class="fas fa-spinner fa-pulse fa-2x"></i></span>
+                <div class="is-size-5 mt-2">Analyzing large sections…</div>
+            </div>
+        </div>
+
+        <!-- Quota Limit Modal -->
+        <div id="limit-modal" class="modal" th:data-show="${showLimitModal}" style="display:none;">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Limit Reached</p>
+                    <button id="close-modal-btn" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p class="modal-message" th:text="${error}">You have used your free quota. Please upgrade.</p>
+                    <form method="post" action="/api/payment/create-checkout-session">
+                        <button type="submit" class="button is-warning is-fullwidth mt-4">Upgrade Now</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="error-modal" class="modal" th:classappend="${showErrorModal} ? ' is-active' : ''" data-show="${showErrorModal}">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Error</p>
+                    <button id="close-error-modal-btn" class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p class="modal-message" th:text="${error}">An error occurred. Please try again.</p>
+                </section>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+              var errorModal = document.getElementById("error-modal");
+              if (errorModal && errorModal.getAttribute("data-show") === "true") {
+                errorModal.classList.add('is-active');
+              }
+              var closeBtn = document.getElementById("close-error-modal-btn");
+              if (closeBtn) {
+                closeBtn.onclick = function() {
+                  errorModal.classList.remove('is-active');
+                };
+              }
+              window.onclick = function(event) {
+                if (event.target === errorModal) {
+                  errorModal.classList.remove('is-active');
+                }
+              };
+            });
+        </script>
+
+        <footer class="footer mt-6">
+            <div class="content has-text-centered">
+                <p>
+                    <a href="/terms">Terms</a> |
+                    <a href="/privacy">Privacy Policy</a> |
+                    <a href="/disclaimer">Disclaimer</a> |
+                    <a href="/contact">Contact</a> |
+                    <a href="/blog">Blog</a>
+                </p>
+                <p class="is-size-7 has-text-grey mt-4">
+                    © 2025 NovaSyntax LLC. All rights reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
+</section>
 </body>
 </html>

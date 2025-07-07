@@ -3,49 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Contact Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
-    <!-- Google tag (gtag.js) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-9CPYZFS7DN');
     </script>
 </head>
 <body>
-
-<div class="contact-container">
-    <h2>Contact Us</h2>
-    <div class="required-note">All fields are required.</div>
-    <form th:action="@{/contact}" method="post" autocomplete="on" aria-label="Contact form">
-        <label for="name">Your Name:</label>
-        <input type="text" name="name" id="name" required autocomplete="name" placeholder="Enter your name" aria-required="true" />
-
-        <label for="email">Your Email:</label>
-        <input type="email" name="email" id="email" required autocomplete="email" placeholder="you@email.com" aria-required="true" />
-
-        <label for="message">Message:</label>
-        <textarea name="message" id="message" required placeholder="Type your message here..." aria-required="true"></textarea>
-
-        <button type="submit" class="submit-btn" aria-label="Send Message">Send Message</button>
-    </form>
-
-    <div th:if="${success}" class="success-message" role="alert">
+<section class="section is-medium has-background-light">
+  <div class="container" style="max-width: 600px;">
+    <div class="box mt-6">
+      <h2 class="title is-3 has-text-link has-text-centered mb-2">Contact Us</h2>
+      <div class="has-text-grey is-size-7 has-text-right mb-4">All fields are required.</div>
+      <form th:action="@{/contact}" method="post" autocomplete="on" aria-label="Contact form">
+        <div class="field">
+          <label class="label" for="name">Your Name:</label>
+          <div class="control">
+            <input class="input" type="text" name="name" id="name" required autocomplete="name" placeholder="Enter your name" aria-required="true" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="email">Your Email:</label>
+          <div class="control">
+            <input class="input" type="email" name="email" id="email" required autocomplete="email" placeholder="you@email.com" aria-required="true" />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="message">Message:</label>
+          <div class="control">
+            <textarea class="textarea" name="message" id="message" required placeholder="Type your message here..." aria-required="true"></textarea>
+          </div>
+        </div>
+        <div class="field has-text-centered mt-5">
+          <button type="submit" class="button is-link is-medium" aria-label="Send Message">
+            <span class="icon"><i class="fas fa-paper-plane"></i></span>
+            <span>Send Message</span>
+          </button>
+        </div>
+      </form>
+      <div th:if="${success}" class="notification is-success mt-5" role="alert">
         <span>✅ Thank you! Your message has been sent.</span>
+      </div>
     </div>
-</div>
-
-<footer class="footer-links">
-    <a href="/terms">Terms</a> |
-    <a href="/privacy">Privacy Policy</a> |
-    <a href="/disclaimer">Disclaimer</a> |
-    <a href="/">Home</a> |
-    <a href="/blog">Blog</a>
-    <div style="margin-top: 40px; font-size: 0.85em; color: #777;">
-        © 2025 NovaSyntax LLC. All rights reserved.
-    </div>
+  </div>
+</section>
+<footer class="footer mt-6">
+  <div class="content has-text-centered">
+    <p>
+      <a href="/terms">Terms</a> |
+      <a href="/privacy">Privacy Policy</a> |
+      <a href="/disclaimer">Disclaimer</a> |
+      <a href="/">Home</a> |
+      <a href="/blog">Blog</a>
+    </p>
+    <p class="is-size-7 has-text-grey mt-4">
+      © 2025 NovaSyntax LLC. All rights reserved.
+    </p>
+  </div>
 </footer>
 </body>
 </html>

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
-<!-- ✅ Include the reusable head -->
 <head th:replace="fragments/head :: commonHead(
     'Freelance Contracts: What to Look For Before You Sign',
     'This guide explains key terms in freelance contracts — and how to use AI to simplify them before you commit.',
@@ -10,115 +8,75 @@
     'https://novalegal.org/blog/freelance-contract-tips',
     ${jsonLd}
 )">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>Freelance Contracts: What to Look For Before You Sign</h1>
-    <p style="color: #666;">Avoid getting underpaid, overworked, or ghosted with this plain-English checklist</p>
-  </header>
-
-  <main>
-    <section>
-      <h2>Why You Should Always Read the Contract</h2>
-      <p>
-        As a freelancer, your contract is your only legal protection. Without a clear agreement, you risk:
-      </p>
-      <ul>
-        <li>Not getting paid on time (or at all)</li>
-        <li>Getting asked to do more work than agreed</li>
-        <li>Losing rights to your own work</li>
-      </ul>
-      <p>
-        Here’s a quick checklist of what to look for — plus how you can use AI to simplify the legal jargon.
-      </p>
-    </section>
-
-    <section>
-      <h2>1. Scope of Work</h2>
-      <p>
-        Make sure it clearly defines what you’re expected to deliver. Vague language like “as needed” or “to be determined” opens the door to scope creep.
-      </p>
-      <p><strong>Red flag:</strong> No specific deliverables or deadlines.</p>
-    </section>
-
-    <section>
-      <h2>2. Payment Terms</h2>
-      <p>
-        How much you’ll get paid, and when. Is it per project, per hour, or per milestone? Check for:
-      </p>
-      <ul>
-        <li>Net 30 vs Net 15 vs “upon completion”</li>
-        <li>Late payment fees</li>
-        <li>Deposit requirements</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>3. Intellectual Property (IP) Rights</h2>
-      <p>
-        Does the client own the work after payment, or do you retain rights? Some contracts may assign *all* rights even if you haven’t been paid yet.
-      </p>
-      <p><strong>Tip:</strong> Look for words like “work for hire” or “assignment of rights”.</p>
-    </section>
-
-    <section>
-      <h2>4. Termination Clause</h2>
-      <p>
-        Can the client cancel the contract mid-project? Are you owed payment for work completed? A missing or unfair clause could leave you with nothing.
-      </p>
-    </section>
-
-    <section>
-      <h2>5. Confidentiality & Non-Compete</h2>
-      <p>
-        A confidentiality clause is normal — but watch out for overly broad non-compete terms that prevent you from working in your field.
-      </p>
-    </section>
-
-    <section>
-      <h2>6. Revision Policy</h2>
-      <p>
-        Some clients will ask for unlimited changes unless the contract limits them. Make sure your time is protected.
-      </p>
-      <p><strong>Safe standard:</strong> 1–2 rounds of revisions, with extra rounds billed hourly.</p>
-    </section>
-
-    <section>
-      <h2>7. Dispute Resolution</h2>
-      <p>
-        If there’s a disagreement, where and how is it handled? Arbitration clauses may limit your ability to sue — check the “jurisdiction” too.
-      </p>
-    </section>
-
-    <section>
-      <h2>Use AI to Review Freelance Contracts in Seconds</h2>
-      <p>
-        Don’t rely on guesswork. With our free <strong>AI legal simplifier</strong>, you can upload any contract and get a plain-English summary of its key points — no signup required.
-      </p>
-      <p><a href="/" class="cta-button">Try the AI Contract Simplifier Now</a></p>
-    </section>
-
-    <section>
-      <h2>Final Thought</h2>
-      <p>
-        Freelance freedom is great — but don’t let it come at the cost of unclear or risky agreements. Before you sign anything, read it carefully or simplify it with AI.
-      </p>
-      <p>
-        🚀 <a href="/">Simplify your freelance contract now</a> — it's free and takes under 30 seconds.
-      </p>
-    </section>
-
-    <hr style="margin-top: 40px;">
-    <footer style="font-size: 0.9em; color: #777;">
-      <p><strong>Tags:</strong> freelance contract tips, get paid freelance, scope of work, payment terms, IP rights, contract AI</p>
-      <p>
-        © 2025 NovaSyntax LLC ·
-        <a href="/">Back to Home</a> ·
-        <a href="/blog">More Blog Articles</a>
-      </p>
-    </footer>
-  </main>
-</div>
+<section class="section is-medium has-background-light">
+  <div class="container" style="max-width: 700px;">
+    <div class="box mt-6">
+      <header class="mb-5 has-text-centered">
+        <h1 class="title is-2 has-text-link mb-2">Freelance Contracts: What to Look For Before You Sign</h1>
+        <p class="has-text-grey is-size-6 mb-5">Avoid getting underpaid, overworked, or ghosted with this plain-English checklist</p>
+      </header>
+      <div class="content">
+        <h2 class="subtitle is-4 mt-5">Why You Should Always Read the Contract</h2>
+        <p>As a freelancer, your contract is your only legal protection. Without a clear agreement, you risk:</p>
+        <ul>
+          <li>Not getting paid on time (or at all)</li>
+          <li>Getting asked to do more work than agreed</li>
+          <li>Losing rights to your own work</li>
+        </ul>
+        <p>Here’s a quick checklist of what to look for — plus how you can use AI to simplify the legal jargon.</p>
+        <h2 class="subtitle is-4 mt-5">1. Scope of Work</h2>
+        <p>Make sure it clearly defines what you’re expected to deliver. Vague language like “as needed” or “to be determined” opens the door to scope creep.</p>
+        <p><strong>Red flag:</strong> No specific deliverables or deadlines.</p>
+        <h2 class="subtitle is-4 mt-5">2. Payment Terms</h2>
+        <p>How much you’ll get paid, and when. Is it per project, per hour, or per milestone? Check for:</p>
+        <ul>
+          <li>Net 30 vs Net 15 vs “upon completion”</li>
+          <li>Late payment fees</li>
+          <li>Deposit requirements</li>
+        </ul>
+        <h2 class="subtitle is-4 mt-5">3. Intellectual Property (IP) Rights</h2>
+        <p>Does the client own the work after payment, or do you retain rights? Some contracts may assign <em>all</em> rights even if you haven’t been paid yet.</p>
+        <p><strong>Tip:</strong> Look for words like “work for hire” or “assignment of rights”.</p>
+        <h2 class="subtitle is-4 mt-5">4. Termination Clause</h2>
+        <p>Can the client cancel the contract mid-project? Are you owed payment for work completed? A missing or unfair clause could leave you with nothing.</p>
+        <h2 class="subtitle is-4 mt-5">5. Confidentiality & Non-Compete</h2>
+        <p>A confidentiality clause is normal — but watch out for overly broad non-compete terms that prevent you from working in your field.</p>
+        <h2 class="subtitle is-4 mt-5">6. Revision Policy</h2>
+        <p>Some clients will ask for unlimited changes unless the contract limits them. Make sure your time is protected.</p>
+        <p><strong>Safe standard:</strong> 1–2 rounds of revisions, with extra rounds billed hourly.</p>
+        <h2 class="subtitle is-4 mt-5">7. Dispute Resolution</h2>
+        <p>If there’s a disagreement, where and how is it handled? Arbitration clauses may limit your ability to sue — check the “jurisdiction” too.</p>
+        <h2 class="subtitle is-4 mt-5">Use AI to Review Freelance Contracts in Seconds</h2>
+        <p>Don’t rely on guesswork. With our free <strong>AI legal simplifier</strong>, you can upload any contract and get a plain-English summary of its key points — no signup required.</p>
+        <p><a href="/" class="button is-link is-medium mt-3">Try the AI Contract Simplifier Now</a></p>
+        <h2 class="subtitle is-4 mt-5">Final Thought</h2>
+        <p>Freelance freedom is great — but don’t let it come at the cost of unclear or risky agreements. Before you sign anything, read it carefully or simplify it with AI.</p>
+        <p>🚀 <a href="/" class="has-text-link">Simplify your freelance contract now</a> — it's free and takes under 30 seconds.</p>
+        <hr class="my-6">
+        <footer class="has-text-grey is-size-6">
+          <p><strong>Tags:</strong> freelance contract tips, get paid freelance, scope of work, payment terms, IP rights, contract AI</p>
+          <p>© 2025 NovaSyntax LLC · <a href="/">Back to Home</a> · <a href="/blog">More Blog Articles</a></p>
+        </footer>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer mt-6">
+  <div class="content has-text-centered">
+    <p>
+      <a href="/">Home</a> |
+      <a href="/privacy">Privacy Policy</a> |
+      <a href="/disclaimer">Disclaimer</a> |
+      <a href="/contact">Contact</a> |
+      <a href="/blog">Blog</a>
+    </p>
+    <p class="is-size-7 has-text-grey mt-4">
+      © 2025 NovaSyntax LLC. All rights reserved.
+    </p>
+  </div>
+</footer>
 </body>
 </html>
