@@ -361,3 +361,15 @@ form textarea {
         }
     }
 }
+
+.footer a:hover {
+  text-decoration: underline;
+  color: #3273dc;
+}
+
+@media (max-width: 480px) {
+  .footer .content p {
+    font-size: 0.95em;
+    line-height: 1.6;
+  }
+}
