@@ -3,19 +3,24 @@
 <head>
     <title>Simplified Document Result</title>
     <meta charset="UTF-8">
+
+    <!-- Responsive Meta Tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-9CPYZFS7DN');
     </script>
 </head>
 <body>
-<div class="container">
+<div class="container result-container">
     <h2>Document Simplified!</h2>
     <div class="summary-label">Here is your simplified summary:</div>
     <pre th:text="${summary}">Summary will appear here</pre>
@@ -23,6 +28,7 @@
         <a href="/" class="button">Upload Another Document</a>
     </div>
 </div>
+
 <footer class="footer-links">
     <a href="/terms">Terms</a> |
     <a href="/privacy">Privacy Policy</a> |
