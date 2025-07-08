@@ -367,6 +367,107 @@ form textarea {
   color: #3273dc;
 }
 
+/* === Bulma Dark Mode Support === */
+.dark-mode {
+  --bulma-background: #181a1b;
+  --bulma-box-background: #23272b;
+  --bulma-text: #eaeaea;
+  --bulma-link: #7dc4fa;
+  --bulma-primary: #3273dc;
+  --bulma-info: #209cee;
+  --bulma-success: #23d160;
+  --bulma-warning: #ffdd57;
+  --bulma-danger: #ff3860;
+  --bulma-border: #363636;
+  background: var(--bulma-background) !important;
+  color: var(--bulma-text) !important;
+}
+.dark-mode body,
+.dark-mode .section,
+.dark-mode .container {
+  background: var(--bulma-background) !important;
+  color: var(--bulma-text) !important;
+}
+.dark-mode .box,
+.dark-mode .terms-container,
+.dark-mode .contact-container,
+.dark-mode .disclaimer-container,
+.dark-mode .privacy-container {
+  background: var(--bulma-box-background) !important;
+  color: var(--bulma-text) !important;
+  border-color: var(--bulma-border) !important;
+}
+.dark-mode .content,
+.dark-mode .content p,
+.dark-mode .content ul,
+.dark-mode .content li {
+  color: var(--bulma-text) !important;
+}
+.dark-mode .title,
+.dark-mode .subtitle {
+  color: var(--bulma-link) !important;
+}
+.dark-mode a,
+.dark-mode .has-text-link {
+  color: var(--bulma-link) !important;
+}
+.dark-mode .button.is-link {
+  background: var(--bulma-link) !important;
+  color: #fff !important;
+}
+.dark-mode .button.is-primary {
+  background: var(--bulma-primary) !important;
+  color: #fff !important;
+}
+.dark-mode .button.is-danger {
+  background: var(--bulma-danger) !important;
+  color: #fff !important;
+}
+.dark-mode .button.is-success {
+  background: var(--bulma-success) !important;
+  color: #fff !important;
+}
+.dark-mode .button.is-warning {
+  background: var(--bulma-warning) !important;
+  color: #222 !important;
+}
+.dark-mode .notification {
+  background: #23272b !important;
+  color: var(--bulma-text) !important;
+  border-color: var(--bulma-border) !important;
+}
+.dark-mode pre,
+.dark-mode pre.content {
+  background: #23272b !important;
+  color: var(--bulma-text) !important;
+  border-color: var(--bulma-border) !important;
+}
+.dark-mode .footer {
+  background: #181a1b !important;
+  color: var(--bulma-text) !important;
+}
+.dark-mode .footer a {
+  color: var(--bulma-link) !important;
+}
+.dark-mode .tag {
+  background: #23272b !important;
+  color: var(--bulma-link) !important;
+  border-color: var(--bulma-border) !important;
+}
+.dark-mode hr {
+  border-color: var(--bulma-border) !important;
+}
+.dark-mode .box,
+.dark-mode .terms-container,
+.dark-mode .contact-container,
+.dark-mode .disclaimer-container,
+.dark-mode .privacy-container {
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+body, .section, .container, .box, .terms-container, .contact-container, .disclaimer-container, .privacy-container, .content, .footer {
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+
 @media (max-width: 480px) {
   .footer .content p {
     font-size: 0.95em;
