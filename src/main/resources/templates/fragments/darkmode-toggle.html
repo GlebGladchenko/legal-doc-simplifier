@@ -1,0 +1,26 @@
+<!-- /templates/fragments/darkmode-toggle.html -->
+<div th:fragment="darkModeToggle">
+  <button id="darkModeToggle" class="button is-small" style="position: fixed; top: 18px; right: 18px; z-index: 1001; background: #23272b; color: #fff; border: none; border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.12);">
+    <span id="darkModeIcon" class="icon">
+      <i class="fas fa-moon"></i>
+    </span>
+  </button>
+  <script>
+  (function() {
+    const html = document.documentElement;
+    const btn = document.getElementById('darkModeToggle');
+    const icon = document.getElementById('darkModeIcon');
+    if (localStorage.getItem('darkMode') === 'true' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('darkMode'))) {
+      html.classList.add('dark-mode');
+      icon.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    btn.onclick = function() {
+      html.classList.toggle('dark-mode');
+      const isDark = html.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDark);
+      icon.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    };
+  })();
+  </script>
+  <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"></script>
+</div>
