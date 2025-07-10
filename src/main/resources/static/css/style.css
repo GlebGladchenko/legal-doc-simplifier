@@ -506,7 +506,7 @@ pre.content {
 
 .contact-container {
     max-width: 600px;
-    background: #fff;
+    background: #23272b;
     padding: 36px 32px 32px 32px;
     margin: 48px auto 32px auto;
     border-radius: 10px;
@@ -584,163 +584,14 @@ form textarea {
     }
 }
 
-.disclaimer-container {
-    max-width: 700px;
-    margin: 48px auto 32px auto;
-    background: #fff;
-    padding: 36px 32px 32px 32px;
-    border-radius: 10px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-}
-.disclaimer-container h1 {
-    text-align: center;
-    color: #1976d2;
-    margin-bottom: 18px;
-}
-.disclaimer-container p {
-    color: #333;
-    font-size: 1.08em;
-    line-height: 1.7;
-    margin-bottom: 18px;
-}
-.disclaimer-container ul {
-    margin-left: 24px;
-    margin-bottom: 16px;
-}
-.disclaimer-container li {
-    margin-bottom: 6px;
-}
-.disclaimer-container .important {
-    color: #d32f2f;
-    font-weight: bold;
-}
+
 @media (max-width: 600px) {
     .disclaimer-container {
         padding: 18px 6px 16px 6px;
     }
 }
 
-.privacy-container {
-    max-width: 700px;
-    margin: 48px auto 32px auto;
-    background: #fff;
-    padding: 36px 32px 32px 32px;
-    border-radius: 10px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-}
-.privacy-container h1 {
-    text-align: center;
-    color: #1976d2;
-    margin-bottom: 18px;
-}
-.privacy-container h2 {
-    color: #1976d2;
-    margin-top: 28px;
-    margin-bottom: 8px;
-    font-size: 1.15em;
-}
-.privacy-container ul {
-    margin-left: 24px;
-    margin-bottom: 16px;
-}
-.privacy-container li {
-    margin-bottom: 6px;
-}
-.privacy-container p, .privacy-container ul {
-    color: #333;
-    font-size: 1.04em;
-    line-height: 1.6;
-}
-.privacy-container .contact {
-    margin-top: 32px;
-    text-align: center;
-}
-.privacy-container .effective-date {
-    color: #666;
-    font-size: 0.98em;
-    margin-bottom: 18px;
-    text-align: center;
-}
-@media (max-width: 600px) {
-    .privacy-container {
-        padding: 18px 6px 16px 6px;
-    }
-}
 
-/* Main heading styles */
-.main-heading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-.main-heading {
-    text-align: center;
-    font-size: 1.8em;
-    font-weight: 700;
-    color: #1976d2;
-    letter-spacing: 0.02em;
-    margin: 0;
-    white-space: nowrap;
-    word-break: keep-all;
-}
-
-@media (max-width: 500px) {
-    .main-heading {
-        font-size: 1.3em;
-        white-space: normal;
-    }
-
-    p {
-        max-width: 75ch; /* limits to ~75 characters per line for readability */
-        margin: 0 auto;   /* center paragraphs if narrower than container */
-    }
-
-    @media (min-width: 768px) {
-        .container {
-            max-width: 800px;
-        }
-    }
-
-    /* Result page adjustments */
-    .result-container {
-        max-width: 700px;
-        margin: 48px auto 32px auto;
-        background: #fff;
-        padding: 36px 32px 32px 32px;
-        border-radius: 10px;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.08);
-    }
-
-    @media (max-width: 600px) {
-        .result-container {
-            padding: 18px 12px 16px 12px;
-            margin: 24px 10px;
-        }
-
-        .summary-label {
-            font-size: 1em;
-            text-align: center;
-        }
-
-        pre {
-            font-size: 0.95em;
-            padding: 14px;
-        }
-
-        .button {
-            width: 100%;
-            padding: 12px;
-            font-size: 1em;
-        }
-    }
-}
-
-.footer a:hover {
-  text-decoration: underline;
-  color: #3273dc;
-}
 
 /* === Enhanced Dark Mode Support === */
 .dark-mode {
@@ -961,9 +812,41 @@ body, .section, .container, .box, .terms-container, .contact-container, .disclai
   color: #aaa !important;
 }
 
-/* === Fix for blockquote with has-background-link-light in dark mode === */
-body.dark-mode blockquote.has-background-link-light {
-  background-color: #22334a !important;
-  color: #f5f5f5 !important;
-  border-left: 4px solid #3273dc !important;
+.custom-callout {
+  background-color: #f5f5f5;
+  color: #1a1a1a;
+  border-left: 4px solid #3273dc;
+  padding: 1.25em 1.5em;
+  border-radius: 4px;
+  font-style: italic;
 }
+
+/* Dark mode override */
+.dark-mode .custom-callout {
+  background-color: #1f2a3b;
+  color: #ffffff;
+  border-left: 4px solid #4a90e2;
+}
+
+html.dark-mode input,
+ html.dark-mode input.input,
+ html.dark-mode input[type="text"],
+ html.dark-mode input[type="email"],
+ html.dark-mode textarea,
+ html.dark-mode textarea.textarea,
+ html.dark-mode select,
+ html.dark-mode select.select {
+   background-color: var(--bulma-input-background) !important;
+   color: var(--bulma-text) !important;
+   border-color: var(--bulma-input-border) !important;
+ }
+
+ /* Optional: Focus styles */
+ html.dark-mode input:focus,
+ html.dark-mode textarea:focus,
+ html.dark-mode select:focus {
+   background-color: #23272b !important;
+   color: var(--bulma-text) !important;
+   border-color: var(--bulma-link) !important;
+   outline: none;
+ }
