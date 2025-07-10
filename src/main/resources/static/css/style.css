@@ -368,10 +368,386 @@ form textarea {
 }
 
 /* === Bulma Dark Mode Support === */
+/* Styles for result.html */
+.summary-label {
+    font-size: 1.1em;
+    color: #444;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+/* Strong element styling for light mode */
+strong {
+    font-weight: bold;
+    color: #222;
+}
+
+pre {
+    background: #f0f4f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 18px;
+    font-size: 1em;
+    line-height: 1.6;
+    color: #222;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 120px;
+    overflow-x: visible;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+pre.content {
+  white-space: pre-wrap;     /* Allows line wrapping */
+  word-wrap: break-word;     /* Break long words */
+  overflow-x: hidden;        /* Hide horizontal scrollbar */
+}
+.actions {
+    margin-top: 28px;
+    text-align: center;
+}
+.button {
+    display: inline-block;
+    background: #1976d2;
+    color: #fff;
+    padding: 10px 26px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    text-decoration: none;
+    transition: background 0.2s;
+    margin: 0 8px;
+}
+.button:hover {
+    background: #1565c0;
+}
+
+
+/* Spinner overlay styles */
+
+
+/* Footer links styling */
+
+
+
+
+.terms-container {
+    max-width: 700px;
+    margin: 48px auto 32px auto;
+    background: #fff;
+    padding: 36px 32px 32px 32px;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.terms-container h1 {
+    text-align: center;
+    color: #1976d2;
+    margin-bottom: 18px;
+}
+.terms-container h2 {
+    color: #1976d2;
+    margin-top: 28px;
+    margin-bottom: 8px;
+    font-size: 1.15em;
+}
+.terms-container ul {
+    margin-left: 24px;
+    margin-bottom: 16px;
+}
+.terms-container li {
+    margin-bottom: 6px;
+}
+.terms-container p, .terms-container ul {
+    color: #333;
+    font-size: 1.04em;
+    line-height: 1.6;
+}
+.terms-container .contact {
+    margin-top: 32px;
+    text-align: center;
+}
+.terms-container .effective-date {
+    color: #666;
+    font-size: 0.98em;
+    margin-bottom: 18px;
+    text-align: center;
+}
+.home-btn {
+    display: inline-block;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 22px;
+    font-size: 1em;
+    cursor: pointer;
+    text-decoration: none;
+    margin-bottom: 18px;
+    margin-right: auto;
+    margin-left: auto;
+    transition: background 0.2s;
+}
+.home-btn:hover {
+    background: #1565c0;
+    text-decoration: underline;
+}
+.home-btn-container {
+    text-align: center;
+    margin-bottom: 10px;
+}
+@media (max-width: 600px) {
+    .terms-container {
+        padding: 18px 6px 16px 6px;
+    }
+}
+
+/* Modal overlay styles */
+
+
+.contact-container {
+    max-width: 600px;
+    background: #fff;
+    padding: 36px 32px 32px 32px;
+    margin: 48px auto 32px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.contact-container h2 {
+    color: #1976d2;
+    margin-bottom: 20px;
+    text-align: center;
+}
+form label {
+    display: block;
+    margin: 14px 0 6px 2px;
+    color: #444;
+    font-weight: 500;
+}
+form input, form textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1px solid #bfc9d1;
+    margin-bottom: 8px;
+    background: #f7fafd;
+    transition: border-color 0.2s;
+}
+form input:focus, form textarea:focus {
+    border-color: #1976d2;
+    outline: none;
+    background: #fff;
+}
+form textarea {
+    resize: vertical;
+    min-height: 100px;
+    max-height: 300px;
+}
+.submit-btn {
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 18px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 5px;
+    font-size: 1.08em;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+.submit-btn:hover, .submit-btn:focus {
+    background-color: #1565c0;
+}
+.success-message {
+    margin-top: 22px;
+    color: #388e3c;
+    background: #e8f5e9;
+    border-radius: 5px;
+    padding: 12px;
+    text-align: center;
+    font-weight: 500;
+}
+.required-note {
+    font-size: 0.97em;
+    color: #888;
+    margin-bottom: 14px;
+    text-align: right;
+}
+@media (max-width: 600px) {
+    .contact-container {
+        padding: 18px 6px 16px 6px;
+    }
+}
+
+.disclaimer-container {
+    max-width: 700px;
+    margin: 48px auto 32px auto;
+    background: #fff;
+    padding: 36px 32px 32px 32px;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.disclaimer-container h1 {
+    text-align: center;
+    color: #1976d2;
+    margin-bottom: 18px;
+}
+.disclaimer-container p {
+    color: #333;
+    font-size: 1.08em;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+.disclaimer-container ul {
+    margin-left: 24px;
+    margin-bottom: 16px;
+}
+.disclaimer-container li {
+    margin-bottom: 6px;
+}
+.disclaimer-container .important {
+    color: #d32f2f;
+    font-weight: bold;
+}
+@media (max-width: 600px) {
+    .disclaimer-container {
+        padding: 18px 6px 16px 6px;
+    }
+}
+
+.privacy-container {
+    max-width: 700px;
+    margin: 48px auto 32px auto;
+    background: #fff;
+    padding: 36px 32px 32px 32px;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.privacy-container h1 {
+    text-align: center;
+    color: #1976d2;
+    margin-bottom: 18px;
+}
+.privacy-container h2 {
+    color: #1976d2;
+    margin-top: 28px;
+    margin-bottom: 8px;
+    font-size: 1.15em;
+}
+.privacy-container ul {
+    margin-left: 24px;
+    margin-bottom: 16px;
+}
+.privacy-container li {
+    margin-bottom: 6px;
+}
+.privacy-container p, .privacy-container ul {
+    color: #333;
+    font-size: 1.04em;
+    line-height: 1.6;
+}
+.privacy-container .contact {
+    margin-top: 32px;
+    text-align: center;
+}
+.privacy-container .effective-date {
+    color: #666;
+    font-size: 0.98em;
+    margin-bottom: 18px;
+    text-align: center;
+}
+@media (max-width: 600px) {
+    .privacy-container {
+        padding: 18px 6px 16px 6px;
+    }
+}
+
+/* Main heading styles */
+.main-heading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.main-heading {
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #1976d2;
+    letter-spacing: 0.02em;
+    margin: 0;
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+@media (max-width: 500px) {
+    .main-heading {
+        font-size: 1.3em;
+        white-space: normal;
+    }
+
+    p {
+        max-width: 75ch; /* limits to ~75 characters per line for readability */
+        margin: 0 auto;   /* center paragraphs if narrower than container */
+    }
+
+    @media (min-width: 768px) {
+        .container {
+            max-width: 800px;
+        }
+    }
+
+    /* Result page adjustments */
+    .result-container {
+        max-width: 700px;
+        margin: 48px auto 32px auto;
+        background: #fff;
+        padding: 36px 32px 32px 32px;
+        border-radius: 10px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+
+    @media (max-width: 600px) {
+        .result-container {
+            padding: 18px 12px 16px 12px;
+            margin: 24px 10px;
+        }
+
+        .summary-label {
+            font-size: 1em;
+            text-align: center;
+        }
+
+        pre {
+            font-size: 0.95em;
+            padding: 14px;
+        }
+
+        .button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+        }
+    }
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  color: #3273dc;
+}
+
+/* === Enhanced Dark Mode Support === */
 .dark-mode {
   --bulma-background: #181a1b;
   --bulma-box-background: #23272b;
   --bulma-text: #eaeaea;
+  --bulma-text-strong: #ffffff;
   --bulma-link: #7dc4fa;
   --bulma-primary: #3273dc;
   --bulma-info: #209cee;
@@ -379,30 +755,63 @@ form textarea {
   --bulma-warning: #ffdd57;
   --bulma-danger: #ff3860;
   --bulma-border: #363636;
+  --bulma-input-background: #2a2e32;
+  --bulma-input-border: #404040;
   background: var(--bulma-background) !important;
   color: var(--bulma-text) !important;
 }
+
 .dark-mode body,
 .dark-mode .section,
 .dark-mode .container {
   background: var(--bulma-background) !important;
   color: var(--bulma-text) !important;
 }
+
 .dark-mode .box,
 .dark-mode .terms-container,
 .dark-mode .contact-container,
 .dark-mode .disclaimer-container,
-.dark-mode .privacy-container {
+.dark-mode .privacy-container,
+.dark-mode .result-container {
   background: var(--bulma-box-background) !important;
   color: var(--bulma-text) !important;
   border-color: var(--bulma-border) !important;
 }
+
 .dark-mode .content,
 .dark-mode .content p,
 .dark-mode .content ul,
 .dark-mode .content li {
   color: var(--bulma-text) !important;
 }
+
+/* Strong element styling for dark mode */
+.dark-mode strong {
+  color: var(--bulma-text-strong) !important;
+  font-weight: bold;
+}
+
+/* Enhanced text styling for dark mode */
+.dark-mode .summary-label {
+  color: var(--bulma-text) !important;
+}
+
+.dark-mode .terms-container p,
+.dark-mode .terms-container ul,
+.dark-mode .privacy-container p,
+.dark-mode .privacy-container ul,
+.dark-mode .disclaimer-container p,
+.dark-mode .disclaimer-container ul {
+  color: var(--bulma-text) !important;
+}
+
+.dark-mode .terms-container .effective-date,
+.dark-mode .privacy-container .effective-date,
+.dark-mode .required-note {
+  color: #aaa !important;
+}
+
 .dark-mode .title,
 .dark-mode .subtitle {
   color: var(--bulma-link) !important;
@@ -473,4 +882,88 @@ body, .section, .container, .box, .terms-container, .contact-container, .disclai
     font-size: 0.95em;
     line-height: 1.6;
   }
+
+ /* === Dark Mode Enhancements for contact.html and disclaimer.html === */
+
+/* Ensure strong elements are styled in dark mode everywhere */
+.dark-mode strong,
+.dark-mode .contact-container strong,
+.dark-mode .disclaimer-container strong {
+  color: var(--bulma-text-strong) !important;
+  font-weight: bold;
+}
+
+/* Ensure all text in contact and disclaimer containers is readable in dark mode */
+.dark-mode .contact-container,
+.dark-mode .contact-container p,
+.dark-mode .contact-container ul,
+.dark-mode .contact-container li,
+.dark-mode .contact-container label,
+.dark-mode .contact-container .success-message,
+.dark-mode .contact-container .required-note {
+  color: var(--bulma-text) !important;
+}
+
+.dark-mode .disclaimer-container,
+.dark-mode .disclaimer-container p,
+.dark-mode .disclaimer-container ul,
+.dark-mode .disclaimer-container li {
+  color: var(--bulma-text) !important;
+}
+
+/* Special color for .important in disclaimer in dark mode */
+.dark-mode .disclaimer-container .important {
+  color: #ff6b6b !important; /* A bright red for visibility in dark mode */
+}
+
+/* Ensure input fields and textarea backgrounds are dark in dark mode */
+.dark-mode .contact-container input,
+.dark-mode .contact-container input[type="text"],
+.dark-mode .contact-container input[type="email"],
+.dark-mode .contact-container input[type="password"],
+.dark-mode .contact-container textarea,
+.dark-mode .contact-container select {
+  background: var(--bulma-input-background) !important;
+  color: var(--bulma-text) !important;
+  border-color: var(--bulma-input-border) !important;
+}
+
+/* Focus state for inputs in dark mode */
+.dark-mode .contact-container input:focus,
+.dark-mode .contact-container textarea:focus,
+.dark-mode .contact-container select:focus {
+  background: #23272b !important;
+  border-color: var(--bulma-link) !important;
+  color: var(--bulma-text) !important;
+}
+
+/* Success message background in dark mode */
+.dark-mode .contact-container .success-message {
+  background: #223322 !important;
+  color: #7fff7f !important;
+}
+
+/* Button in contact form in dark mode */
+.dark-mode .submit-btn {
+  background: var(--bulma-primary) !important;
+  color: #fff !important;
+}
+
+/* Home button in dark mode */
+.dark-mode .home-btn {
+  background: var(--bulma-primary) !important;
+  color: #fff !important;
+}
+
+/* Effective date and required note in dark mode */
+.dark-mode .contact-container .required-note,
+.dark-mode .disclaimer-container .effective-date {
+  color: #aaa !important;
+}
+
+/* === Fix for blockquote with has-background-link-light in dark mode === */
+body.dark-mode blockquote.has-background-link-light {
+  background-color: #22334a !important;
+  color: #f5f5f5 !important;
+  border-left: 4px solid #3273dc !important;
 }
