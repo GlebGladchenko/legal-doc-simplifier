@@ -7,4 +7,12 @@ import java.util.Optional;
 
 public interface IpUsageRepository extends JpaRepository<IpUsage, Long> {
     Optional<IpUsage> findByIpAddress(String ipAddress);
+
+    Optional<IpUsage> findFirstByUuid(String uuid);
+
+    Optional<IpUsage> findFirstByIpAddressAndUserAgentAndReferer(
+            String ipAddress,
+            String userAgent,
+            String referer
+    );
 }

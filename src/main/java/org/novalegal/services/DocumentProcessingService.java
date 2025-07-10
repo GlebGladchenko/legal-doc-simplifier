@@ -35,4 +35,6 @@ public interface DocumentProcessingService {
     void addUsage(IpUsage ipUsage);
 
     MultipartFile toMultipartFile(Resource resource, String fileName, String contentType);
+
+    IpUsage getOrCreateUsage(String uuid, String ip, String userAgent, String referer);
 }

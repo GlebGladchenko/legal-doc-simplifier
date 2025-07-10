@@ -1,5 +1,7 @@
 package org.novalegal.controllers;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.novalegal.models.IpUsage;
 import org.novalegal.services.DocumentProcessingService;
 import org.novalegal.services.EmailService;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 @Controller
 public class DocumentController {
@@ -31,18 +35,46 @@ public class DocumentController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam(value = "useSample", required = false) String useSample,
                                    HttpServletRequest request,
+                                   HttpServletResponse response,
                                    Model model) throws Exception {
-        String ip = request.getRemoteAddr();
-        IpUsage ipUsage = processingService.getOrCreateIpUsage(ip);
 
-        /*if (ipUsage.getUsageCount() >= ipUsage.getUsageLimit()) {
-            // Set error message for modal and a flag to trigger modal display
+        // Get IP and headers
+        String ip = request.getRemoteAddr();
+        String userAgent = request.getHeader("User-Agent");
+        String referer = request.getHeader("Referer");
+
+        // Check for existing UUID cookie
+        String uuid = null;
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
+                if ("user_uuid".equals(cookie.getName())) {
+                    uuid = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        // If UUID cookie is missing, create and set it
+        if (uuid == null || uuid.isBlank()) {
+            uuid = UUID.randomUUID().toString();
+            Cookie uuidCookie = new Cookie("user_uuid", uuid);
+            uuidCookie.setPath("/");
+            uuidCookie.setMaxAge(60 * 60 * 24 * 365); // 1 year
+            response.addCookie(uuidCookie);
+        }
+
+        // Fetch or create usage entry
+        IpUsage usage = processingService.getOrCreateUsage(uuid, ip, userAgent, referer);
+
+        // Usage limit logic (optional)
+       /* if (usage.getUsageCount() >= usage.getUsageLimit()) {
             model.addAttribute("error", "You have used your free quota. Please upgrade.");
             model.addAttribute("showLimitModal", true);
             return "index";
         }*/
 
-        processingService.addUsage(ipUsage);
+        // Record new usage
+        processingService.addUsage(usage);
 
         if ("on".equals(useSample)) {
             ClassPathResource sample = new ClassPathResource("static/sample-nda.pdf");
