@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Contact Us</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -67,5 +67,18 @@
     </p>
   </div>
 </footer>
+<style>
+  html.dark-mode input,
+  html.dark-mode textarea,
+  html.dark-mode select {
+    background-color: #23272b !important;
+    color: #eaeaea !important;
+    border-color: #404040 !important;
+  }
+
+  html.dark-mode .label {
+    color: var(--bulma-text) !important;
+  }
+</style>
 </body>
 </html>
