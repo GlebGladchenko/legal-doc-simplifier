@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class DocumentProcessingServiceImpl implements DocumentProcessingService {
@@ -61,6 +62,33 @@ public class DocumentProcessingServiceImpl implements DocumentProcessingService 
             newUsage.setLastUsed(LocalDateTime.now());
             return newUsage;
         });
+    }
+
+    public IpUsage getOrCreateUsage(String uuid, String ip, String userAgent, String referer) {
+        Optional<IpUsage> found;
+
+        if (uuid != null && !uuid.isEmpty()) {
+            found = ipUsageRepository.findFirstByUuid(uuid);
+        } else {
+            found = ipUsageRepository.findFirstByIpAddressAndUserAgentAndReferer(ip, userAgent, referer);
+        }
+
+        if (found.isPresent()) {
+            IpUsage usage = found.get();
+            usage.setLastUsed(LocalDateTime.now());
+            return ipUsageRepository.save(usage); // Update last used time
+        }
+
+        // New user
+        IpUsage usage = new IpUsage();
+        usage.setUuid(uuid); // may be null
+        usage.setIpAddress(ip);
+        usage.setUserAgent(userAgent);
+        usage.setReferer(referer);
+        usage.setUsageCount(0);
+        usage.setUsageLimit(2); // Or pull from config
+        usage.setLastUsed(LocalDateTime.now());
+        return ipUsageRepository.save(usage);
     }
 
     public void addUsage(IpUsage ipUsage) {
