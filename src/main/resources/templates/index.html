@@ -137,11 +137,15 @@
 
               const form = document.querySelector('form');
               const spinnerOverlay = document.getElementById('spinner-overlay');
-              if (form) {
-                form.addEventListener('submit', function() {
-                  spinnerOverlay.classList.add('is-active');
-                });
-              }
+               if (form) {
+                  form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    spinnerOverlay.classList.add('is-active');
+                    setTimeout(() => {
+                      form.submit();
+                    }, 100);
+                  });
+                }
 
               const dropZone = document.getElementById('drop-zone');
               if (dropZone && fileInput) {
