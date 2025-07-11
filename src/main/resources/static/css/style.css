@@ -612,6 +612,53 @@ form textarea {
   color: var(--bulma-text) !important;
 }
 
+/* === Bulma Modal Dark Mode Support === */
+.dark-mode .modal-background {
+  background-color: rgba(24, 26, 27, 0.95) !important;
+}
+.dark-mode .modal-card {
+  background: var(--bulma-box-background) !important;
+  color: var(--bulma-text) !important;
+  border-radius: 8px;
+  border: 1px solid var(--bulma-border) !important;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.32);
+}
+.dark-mode .modal-card-head,
+.dark-mode .modal-card-foot {
+  background: #23272b !important;
+  color: var(--bulma-text) !important;
+  border-bottom: 1px solid var(--bulma-border) !important;
+}
+.dark-mode .modal-card-title {
+  color: var(--bulma-link) !important;
+}
+.dark-mode .modal-card-body {
+  background: var(--bulma-box-background) !important;
+  color: var(--bulma-text) !important;
+}
+.dark-mode .modal-message {
+  color: var(--bulma-text) !important;
+}
+.dark-mode .modal .button.is-warning {
+  background: var(--bulma-warning) !important;
+  color: #222 !important;
+}
+.dark-mode .modal .button.is-link {
+  background: var(--bulma-link) !important;
+  color: #fff !important;
+}
+.dark-mode .modal .delete {
+  background: #363636 !important;
+  color: #fff !important;
+  opacity: 0.8;
+}
+.dark-mode .modal .delete:hover {
+  background: #222 !important;
+  color: #fff !important;
+  opacity: 1;
+}
+
+
 .dark-mode body,
 .dark-mode .section,
 .dark-mode .container {
