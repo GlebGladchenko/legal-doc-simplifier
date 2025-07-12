@@ -139,15 +139,53 @@
 
               const form = document.querySelector('form');
               const spinnerOverlay = document.getElementById('spinner-overlay');
-               if (form) {
-                  form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                    spinnerOverlay.classList.add('is-active');
-                    setTimeout(() => {
-                      form.submit();
-                    }, 100);
+              if (form) {
+                form.addEventListener('submit', function (e) {
+                  e.preventDefault();
+                  spinnerOverlay.classList.add('is-active');
+                  const formData = new FormData(form);
+                  fetch(form.getAttribute('action') || window.location.pathname, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                      'X-Requested-With': 'XMLHttpRequest'
+                    }
+                  })
+                  .then(response => {
+                    if (response.headers.get('content-type') && response.headers.get('content-type').includes('application/json')) {
+                      response.json().then(data => {
+                        if (data.redirect) {
+                          window.location.href = data.redirect;
+                        }
+                      });
+                      return;
+                    }
+                    if (response.redirected) {
+                      window.location.href = response.url;
+                      return;
+                    }
+                    spinnerOverlay.classList.remove('is-active');
+                    if (response.ok) {
+                      alert('Upload successful!');
+                    } else {
+                      response.text().then(text => {
+                        showErrorModal(text || 'Upload failed.');
+                      });
+                    }
+                  })
+                  .catch(error => {
+                    spinnerOverlay.classList.remove('is-active');
+                    showErrorModal('Upload error: ' + error);
                   });
+
+                function showErrorModal(message) {
+                  var errorModal = document.getElementById('error-modal');
+                  var errorMsg = errorModal.querySelector('.modal-message');
+                  if (errorMsg) errorMsg.textContent = message;
+                  errorModal.classList.add('is-active');
                 }
+                });
+              }
 
               const dropZone = document.getElementById('drop-zone');
               if (dropZone && fileInput) {
