@@ -37,7 +37,6 @@ public class DocumentController {
                                    HttpServletRequest request,
                                    HttpServletResponse response,
                                    Model model) throws Exception {
-
         // Get IP and headers
         String ip = request.getRemoteAddr();
         String userAgent = request.getHeader("User-Agent");
