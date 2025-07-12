@@ -85,13 +85,39 @@ public class DocumentController {
         try {
             text = processingService.extractTextFromFile(file);
         } catch (IllegalArgumentException ex) {
-            model.addAttribute("error", ex.getMessage() != null ? ex.getMessage() : "Invalid or unsupported file uploaded.");
-            model.addAttribute("showErrorModal", true);
-            return "index";
+            String errorMsg = ex.getMessage() != null ? ex.getMessage() : "Invalid or unsupported file uploaded.";
+            if (isAjaxRequest(request)) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setContentType("text/plain;charset=UTF-8");
+                response.getWriter().write(errorMsg);
+                return null;
+            } else {
+                model.addAttribute("error", errorMsg);
+                model.addAttribute("showErrorModal", true);
+                return "index";
+            }
         }
 
         String summary = openAIClientService.simplifyDocumentWithChunking(text, 4000);
         model.addAttribute("summary", summary);
+        // Store summary in session for AJAX redirect
+        request.getSession().setAttribute("summary", summary);
+        if (isAjaxRequest(request)) {
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write("{\"redirect\": \"/result\"}");
+            return null;
+        }
+        return "result";
+    }
+
+    @GetMapping("/result")
+    public String resultPage(HttpServletRequest request, Model model) {
+        Object summary = request.getSession().getAttribute("summary");
+        if (summary != null) {
+            model.addAttribute("summary", summary);
+            // Optionally clear the summary from session after displaying
+            request.getSession().removeAttribute("summary");
+        }
         return "result";
     }
 
@@ -145,5 +171,10 @@ public class DocumentController {
 
         model.addAttribute("success", true);
         return "contact";
+    }
+
+    private boolean isAjaxRequest(HttpServletRequest request) {
+        String requestedWith = request.getHeader("X-Requested-With");
+        return requestedWith != null && requestedWith.equalsIgnoreCase("XMLHttpRequest");
     }
 }
