@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Error modal logic (from second script block)
+  // Error modal logic
   var errorModal = document.getElementById("error-modal");
   if (errorModal && errorModal.getAttribute("data-show") === "true") {
     errorModal.classList.add('is-active');

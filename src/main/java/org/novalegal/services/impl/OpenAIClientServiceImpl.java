@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,6 +79,81 @@ public class OpenAIClientServiceImpl implements OpenAIClientService {
                 String.join("\n\n", summaries);
 
         return simplifyWithPrompt(mergedPrompt);
+    }
+
+    public String generateMeetingSummaryFromSegmentsChunked(String whisperJson) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        try {
+            root = mapper.readTree(whisperJson);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to parse Whisper response", e);
+        }
+
+        JsonNode segments = root.get("segments");
+        if (segments == null || !segments.isArray()) {
+            throw new IllegalArgumentException("Missing 'segments' array");
+        }
+
+        List<String> chunks = new ArrayList<>();
+        StringBuilder currentChunk = new StringBuilder();
+        int chunkCharLimit = 12000;
+
+        for (JsonNode segment : segments) {
+            double start = segment.get("start").asDouble();
+            double end = segment.get("end").asDouble();
+            String text = segment.get("text").asText();
+            String timestamp = String.format("[%02d:%02d - %02d:%02d]",
+                    (int)(start / 60), (int)(start % 60),
+                    (int)(end / 60), (int)(end % 60));
+
+            String entry = timestamp + " " + text + "\n";
+
+            if (currentChunk.length() + entry.length() > chunkCharLimit) {
+                chunks.add(currentChunk.toString());
+                currentChunk = new StringBuilder();
+            }
+            currentChunk.append(entry);
+        }
+        if (!currentChunk.isEmpty()) {
+            chunks.add(currentChunk.toString());
+        }
+
+        // Generate partial summaries
+        List<String> partialSummaries = new ArrayList<>();
+        for (int i = 0; i < chunks.size(); i++) {
+            String chunkPrompt = """
+            You are an AI meeting assistant. The following is part %d of a meeting transcript.
+            Summarize this section, highlight key decisions and discussion points,
+            and list any clear action items (with timestamps if possible).
+
+            Transcript:
+            %s
+            """.formatted(i + 1, chunks.get(i));
+
+            String result = simplifyWithPrompt(chunkPrompt);
+            partialSummaries.add(result);
+        }
+
+        // Combine for final summary
+        StringBuilder finalPrompt = new StringBuilder("""
+        Based on the following part-by-part summaries of a long meeting,
+        synthesize a final overall summary.
+
+        Please:
+        - Combine everything into a single clean summary
+        - Highlight key insights and decisions
+        - List clear action items
+        - Keep the final output under 400 words
+
+        ===
+        """);
+
+        for (int i = 0; i < partialSummaries.size(); i++) {
+            finalPrompt.append("Part ").append(i + 1).append(":\n").append(partialSummaries.get(i)).append("\n\n");
+        }
+
+        return simplifyWithPrompt(finalPrompt.toString());
     }
 
     // Helper to call OpenAI with a custom prompt

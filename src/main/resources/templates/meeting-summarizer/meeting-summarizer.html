@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Summarize Meeting Recordings with AI | Teams, Zoom, WebEx – Free</title>
+  <meta name="description" content="Use AI to summarize long meetings from Teams, Zoom, or other platforms. Upload a video or audio file and get a concise recap." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+  <style>
+    @media (max-width: 480px) {
+      .button.is-medium { font-size: 1rem; padding: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+<!-- Dark Mode Toggle Button -->
+<div th:replace="fragments/darkmode-toggle :: darkModeToggle"></div>
+<section class="section is-medium has-background-light">
+  <div class="container px-4" style="max-width: 100%; max-width: 600px;">
+    <div class="has-text-centered mb-5">
+      <h1 class="title is-2 has-text-link">Summarize Meetings with AI</h1>
+      <h2 class="subtitle is-4">🎤 Upload a Teams, Zoom, or WebEx recording</h2>
+    </div>
+
+    <div class="notification is-info is-light mb-5">
+      <strong>AI-powered meeting summarizer to save you hours.</strong>
+      <ul class="mt-3" style="margin-left: 1.2em;">
+        <li>📹 Supports MP4 recordings (Teams, Zoom, etc.)</li>
+        <li>🧠 AI transcribes & summarizes for you</li>
+        <li>🔐 Private – your file is processed securely</li>
+        <li>🎁 Free for now – no login required</li>
+      </ul>
+    </div>
+
+    <form id="meeting-upload-form" enctype="multipart/form-data">
+      <div class="field mb-4">
+        <label class="label">Choose meeting file:</label>
+        <div id="drop-zone"
+             class="box has-background-white has-text-link has-text-centered py-6 mb-2"
+             role="button"
+             tabindex="0"
+             onclick="document.getElementById('file').click();">
+          <span class="is-size-6">Drag &amp; drop your MP4 file here or click to select</span>
+        </div>
+        <input class="file-input" type="file" id="file" name="file" accept=".mp4,.webm,.mkv,.mov,.avi,.mp3,.wav" required style="display:none;" />
+      </div>
+
+      <div id="file-name" class="has-text-info mb-2"></div>
+      <p class="has-text-grey is-size-7 has-text-centered mb-4">Max file size: 1GB</p>
+
+      <div class="field has-text-centered">
+        <button class="button is-link is-medium is-fullwidth" type="submit">
+          <span class="icon"><i class="fas fa-magic"></i></span>
+          <span>Summarize</span>
+        </button>
+      </div>
+    </form>
+
+    <!-- Spinner Modal -->
+    <div class="modal" id="spinner-overlay">
+      <div class="modal-background"></div>
+      <div class="modal-content has-text-centered">
+        <span class="icon is-large"><i class="fas fa-spinner fa-pulse fa-2x"></i></span>
+        <div class="is-size-5 mt-2">Processing meeting…</div>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div class="notification is-danger is-light mt-5 is-hidden" id="error-msg"></div>
+
+    <div class="has-text-centered mt-6">
+      <span class="is-size-6">⚡ Powered by Whisper + GPT · Built by NovaSyntax</span>
+    </div>
+
+    <footer class="footer mt-6">
+      <div class="content has-text-centered">
+        <p>
+          <a href="/terms">Terms of Service</a> |
+          <a href="/privacy">Privacy Policy</a> |
+          <a href="/disclaimer">Disclaimer</a> |
+          <a href="/contact">💬 Feedback</a> |
+          <a href="/blog">Blog</a>
+        </p>
+        <p class="is-size-7 has-text-grey mt-4">
+          © 2025 NovaSyntax LLC. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('meeting-upload-form');
+  const fileInput = document.getElementById('file');
+  const fileName = document.getElementById('file-name');
+  const spinner = document.getElementById('spinner-overlay');
+  const errorMsg = document.getElementById('error-msg');
+
+  // Show selected file name
+  fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) {
+          fileName.textContent = "Selected file: " + fileInput.files[0].name;
+      }
+  });
+
+  // ✅ Prevent browser from previewing dropped files (especially .webm/mp4)
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    document.addEventListener(eventName, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, false);
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errorMsg.classList.add('is-hidden');
+    spinner.classList.add('is-active');
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+     fetch("/meeting-summarizer", {
+        method: "POST",
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.redirect) {
+            window.location.href = data.redirect;
+        } else {
+            spinner.classList.remove('is-active');
+            errorMsg.textContent = "Unexpected response format.";
+            errorMsg.classList.remove('is-hidden');
+        }
+    })
+    .catch(err => {
+        spinner.classList.remove('is-active');
+        errorMsg.textContent = "❌ Upload error: " + err.message;
+        errorMsg.classList.remove('is-hidden');
+    });
+});
+</script>
+</body>
+</html>
