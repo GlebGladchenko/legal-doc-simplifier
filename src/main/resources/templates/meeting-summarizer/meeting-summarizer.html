@@ -29,7 +29,7 @@
     <div class="notification is-info is-light mb-5">
       <strong>AI-powered meeting summarizer to save you hours.</strong>
       <ul class="mt-3" style="margin-left: 1.2em;">
-        <li>📹 Supports MP4 recordings (Teams, Zoom, etc.)</li>
+        <li>📹 Supports MP4, MKV, WEBM, MOV recordings (Teams, Zoom)</li>
         <li>🧠 AI transcribes & summarizes for you</li>
         <li>🔐 Private – your file is processed securely</li>
         <li>🎁 Free for now – no login required</li>
@@ -43,10 +43,13 @@
              class="box has-background-white has-text-link has-text-centered py-6 mb-2"
              role="button"
              tabindex="0"
-             onclick="document.getElementById('file').click();">
-          <span class="is-size-6">Drag &amp; drop your MP4 file here or click to select</span>
+             aria-pressed="false"
+             aria-label="Drag and drop your file here or click to select"
+             onclick="document.getElementById('file').click();"
+             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); document.getElementById('file').click();}">
+          <span class="is-size-6">Drag &amp; drop your record file here or click to select</span>
         </div>
-        <input class="file-input" type="file" id="file" name="file" accept=".mp4,.webm,.mkv,.mov,.avi,.mp3,.wav" required style="display:none;" />
+        <input class="file-input" type="file" id="file" name="file" accept=".mp4,.webm,.mkv,.mov" required style="display:none;" />
       </div>
 
       <div id="file-name" class="has-text-info mb-2"></div>
@@ -107,13 +110,30 @@
       }
   });
 
-  // ✅ Prevent browser from previewing dropped files (especially .webm/mp4)
-  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    document.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-    }, false);
-  });
+    const dropZone = document.getElementById('drop-zone');
+
+    // Prevent browser default behavior on document (avoid video preview)
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      document.addEventListener(eventName, e => {
+        e.preventDefault();
+        e.stopPropagation();
+      }, false);
+    });
+
+dropZone.addEventListener('drop', async (e) => {
+  const files = e.dataTransfer.files;
+  if (files.length === 0) return;
+
+  const file = files[0];
+
+  // 👇 Set the dropped file into the hidden file input
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+  fileInput.files = dataTransfer.files;
+
+  // 👇 Show file name for user feedback
+  fileName.textContent = "Selected file: " + file.name;
+});
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();

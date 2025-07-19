@@ -95,9 +95,8 @@ public class OpenAIClientServiceImpl implements OpenAIClientService {
             throw new IllegalArgumentException("Missing 'segments' array");
         }
 
-        List<String> chunks = new ArrayList<>();
-        StringBuilder currentChunk = new StringBuilder();
-        int chunkCharLimit = 12000;
+        StringBuilder allText = new StringBuilder();
+        List<String> entries = new ArrayList<>();
 
         for (JsonNode segment : segments) {
             double start = segment.get("start").asDouble();
@@ -107,53 +106,78 @@ public class OpenAIClientServiceImpl implements OpenAIClientService {
                     (int)(start / 60), (int)(start % 60),
                     (int)(end / 60), (int)(end % 60));
 
-            String entry = timestamp + " " + text + "\n";
+            String entry = timestamp + " " + text;
+            entries.add(entry);
+            allText.append(entry).append("\n");
+        }
 
-            if (currentChunk.length() + entry.length() > chunkCharLimit) {
+        // If entire text fits comfortably under 13,000 characters, no need to chunk
+        if (allText.length() <= 13000) {
+            String prompt = buildChunkPrompt(allText.toString(), 1);
+            String rawSummary = simplifyWithPrompt(prompt);
+            return buildFinalSummary(List.of(rawSummary));
+        }
+
+        // Otherwise chunk the entries
+        List<String> chunks = new ArrayList<>();
+        StringBuilder currentChunk = new StringBuilder();
+        int chunkCharLimit = 12000;
+
+        for (String entry : entries) {
+            if (currentChunk.length() + entry.length() + 1 > chunkCharLimit) {
                 chunks.add(currentChunk.toString());
                 currentChunk = new StringBuilder();
             }
-            currentChunk.append(entry);
+            currentChunk.append(entry).append("\n");
         }
         if (!currentChunk.isEmpty()) {
             chunks.add(currentChunk.toString());
         }
 
-        // Generate partial summaries
+        // Summarize each chunk
         List<String> partialSummaries = new ArrayList<>();
         for (int i = 0; i < chunks.size(); i++) {
-            String chunkPrompt = """
-            You are an AI meeting assistant. The following is part %d of a meeting transcript.
-            Summarize this section, highlight key decisions and discussion points,
-            and list any clear action items (with timestamps if possible).
-
-            Transcript:
-            %s
-            """.formatted(i + 1, chunks.get(i));
-
-            String result = simplifyWithPrompt(chunkPrompt);
-            partialSummaries.add(result);
+            String prompt = buildChunkPrompt(chunks.get(i), i + 1);
+            String summary = simplifyWithPrompt(prompt);
+            partialSummaries.add(summary);
         }
 
-        // Combine for final summary
-        StringBuilder finalPrompt = new StringBuilder("""
-        Based on the following part-by-part summaries of a long meeting,
-        synthesize a final overall summary.
+        return buildFinalSummary(partialSummaries);
+    }
 
-        Please:
-        - Combine everything into a single clean summary
-        - Highlight key insights and decisions
-        - List clear action items
-        - Keep the final output under 400 words
+    private String buildChunkPrompt(String chunkText, int partNumber) {
+        return """
+        You are an AI meeting assistant. Below is part %d of a transcribed meeting.
+
+        Your task:
+        - Summarize the content clearly and professionally
+        - List key discussion points and decisions
+        - Extract any action items with timestamps, e.g., "[00:02 - 00:05] John to email client."
+
+        Transcript:
+        %s
+        """.formatted(partNumber, chunkText);
+    }
+
+    private String buildFinalSummary(List<String> partialSummaries) {
+        StringBuilder prompt = new StringBuilder("""
+        Based on the following summaries of a meeting, generate a final comprehensive summary.
+
+        Be sure to:
+        - Consolidate all content into one coherent summary
+        - Emphasize key insights and decisions made
+        - Clearly list all action items with timestamps (if mentioned)
+        - Keep output under 400 words
+        - Use bullet points for action items if possible
 
         ===
         """);
 
         for (int i = 0; i < partialSummaries.size(); i++) {
-            finalPrompt.append("Part ").append(i + 1).append(":\n").append(partialSummaries.get(i)).append("\n\n");
+            prompt.append("Part ").append(i + 1).append(":\n").append(partialSummaries.get(i)).append("\n\n");
         }
 
-        return simplifyWithPrompt(finalPrompt.toString());
+        return simplifyWithPrompt(prompt.toString());
     }
 
     // Helper to call OpenAI with a custom prompt
