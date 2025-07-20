@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>NovaLegal – AI Tools for Legal Documents & Meetings</title>
+    <meta name="description" content="Choose an AI-powered tool to simplify legal documents or summarize meeting recordings. Built for professionals. No signup needed." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+    <style>
+        .feature-tile {
+          transition: all 0.2s ease;
+          cursor: pointer;
+        }
+
+        .feature-tile:hover {
+          background-color: #f0f4ff;
+          transform: scale(1.02);
+          border-color: #3273dc;
+        }
+
+        @media (max-width: 768px) {
+          .feature-tile {
+            margin-bottom: 1rem;
+          }
+        }
+    </style>
+</head>
+<body>
+<!-- Dark Mode Toggle -->
+<div th:replace="fragments/darkmode-toggle :: darkModeToggle"></div>
+
+<section class="section is-medium has-background-light">
+    <div class="container px-4" style="max-width: 100%; max-width: 700px;">
+        <div class="has-text-centered mb-6">
+            <h1 class="title is-2 has-text-link">Welcome to NovaLegal</h1>
+            <h2 class="subtitle is-4">Choose a tool to get started</h2>
+        </div>
+
+        <div class="columns is-variable is-6 is-centered">
+            <!-- Document Simplifier Tile -->
+            <div class="column is-half">
+                <a href="/document-simplifier">
+                    <div class="box has-text-centered feature-tile">
+            <span class="icon is-large has-text-info">
+              <i class="fas fa-file-alt fa-2x"></i>
+            </span>
+                        <h3 class="title is-5 mt-3">📄 Simplify Legal Documents</h3>
+                        <p class="is-size-6 mt-2">Understand leases, NDAs, and contracts in plain English — upload PDF or DOCX.</p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Meeting Summarizer Tile -->
+            <div class="column is-half">
+                <a href="/meeting-summarizer">
+                    <div class="box has-text-centered feature-tile">
+            <span class="icon is-large has-text-success">
+              <i class="fas fa-microphone-alt fa-2x"></i>
+            </span>
+                        <h3 class="title is-5 mt-3">📝 Summarize Meetings</h3>
+                        <p class="is-size-6 mt-2">Upload a Zoom, Teams, or WebEx recording and get a concise AI summary.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="has-text-centered mt-6">
+            <span class="is-size-6">⚡ AI-powered tools for legal and business professionals – No signup required</span>
+        </div>
+
+        <footer class="footer mt-6">
+            <div class="content has-text-centered">
+                <p>
+                    <a href="/terms">Terms of Service</a> |
+                    <a href="/privacy">Privacy Policy</a> |
+                    <a href="/disclaimer">Disclaimer</a> |
+                    <a href="/contact">💬 Feedback</a> |
+                    <a href="/blog">Blog</a>
+                </p>
+                <p class="is-size-7 has-text-grey mt-4">
+                    © 2025 NovaSyntax LLC. All rights reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
+</section>
+</body>
+</html>

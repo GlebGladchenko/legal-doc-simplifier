@@ -69,7 +69,7 @@ public class DocumentController {
        /* if (usage.getUsageCount() >= usage.getUsageLimit()) {
             model.addAttribute("error", "You have used your free quota. Please upgrade.");
             model.addAttribute("showLimitModal", true);
-            return "index";
+            return "document-simplifier";
         }*/
 
         // Record new usage
@@ -93,7 +93,7 @@ public class DocumentController {
             } else {
                 model.addAttribute("error", errorMsg);
                 model.addAttribute("showErrorModal", true);
-                return "index";
+                return "document-simplifier";
             }
         }
 
@@ -122,8 +122,14 @@ public class DocumentController {
 
     @GetMapping("/")
     public String index() {
-        return "index";
+        return "home";
     }
+
+    @GetMapping("/document-simplifier")
+    public String documentSimplifier() {
+        return "document-simplifier";
+    }
+
 
     @GetMapping("/privacy")
     public String privacy() {

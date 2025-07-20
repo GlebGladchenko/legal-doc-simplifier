@@ -22,17 +22,6 @@
       background-color: #2a2a2a !important;
       color: #f5f5f5 !important;
     }
-    pre {
-      background: #23272e;
-      color: #f5f5f5;
-      border-radius: 6px;
-      padding: 1rem;
-      white-space: pre-wrap;
-    }
-    [data-theme="light"] pre {
-      background: #f4f4f4;
-      color: #222;
-    }
   </style>
 </head>
 <body>
@@ -41,17 +30,22 @@
   <div class="container" style="max-width: 700px;">
     <div class="box mt-6">
       <h2 class="title is-3 has-text-link has-text-centered mb-4">Meeting Summary Status</h2>
+      <!-- Always include the current status in a hidden span for JS polling -->
+      <span id="job-hidden-status" style="display: none;" th:text="${job.status}">IN_PROGRESS</span>
       <div class="subtitle is-5 has-text-centered mb-3">Track your meeting's progress and view the summary below.</div>
 
       <!-- Status Notification -->
-      <div th:if="${job.status == 'IN_PROGRESS'}" class="notification is-warning has-text-centered mb-4">
+      <div th:if="${job.status == 'IN_PROGRESS'}" class="notification has-text-centered mb-4">
         <span class="icon-text">
           <span class="icon"><i class="fas fa-spinner fa-spin"></i></span>
-          <span><strong>Status:</strong> <span th:text="${job.status}">Loading...</span></span>
+          <span><strong>Status:</strong> <span id="job-status">In Progress</span></span>
         </span>
-        <progress class="progress is-small is-warning mt-2" max="100">Loading…</progress>
+        <progress id="simulated-progress"
+                  class="progress is-small is-link mt-2"
+                  max="100" value="0">
+          Loading…
+        </progress>
         <p class="has-text-grey mt-2">⏳ Your meeting is being processed. Please wait...</p>
-        <script>setTimeout(() => location.reload(), 5000);</script>
       </div>
       <div th:if="${job.status == 'COMPLETED'}" class="notification is-success has-text-centered mb-4">
         <span class="icon-text">
@@ -81,15 +75,19 @@
       </div>
 
       <div class="has-text-centered mt-5">
-        <a href="/meeting-summarizer" class="button is-link is-medium is-fullwidth" style="white-space: normal;">
+        <button
+                class="button is-link is-medium is-fullwidth"
+                th:disabled="${job.status == 'IN_PROGRESS'}"
+                onclick="window.location='/meeting-summarizer'"
+                style="white-space: normal;">
           <span class="icon"><i class="fas fa-upload"></i></span>
           <span>Upload Another Meeting</span>
-        </a>
+        </button>
       </div>
     </div>
   </div>
 </section>
-<footer class="footer mt-6">
+<footer class="footer mt-6" th:if="${job.status != 'IN_PROGRESS'}">
   <div class="content has-text-centered">
     <p>
       <a href="/terms">Terms of Service</a> |
@@ -103,5 +101,52 @@
     </p>
   </div>
 </footer>
+<script>
+  let progress = 10;
+  const bar = document.querySelector("#simulated-progress");
+  let jobCompleted = false;
+
+  // Fake progress updater: from 10 to 95%
+  const fakeProgressInterval = setInterval(() => {
+    if (!jobCompleted && progress < 95) {
+      progress += 1;
+      bar.value = progress;
+    }
+  }, 2000); // 0.4s per 1% = ~30s total
+
+  // Check backend status every 4 seconds
+  const checkStatusInterval = setInterval(() => {
+    fetch(window.location.href, {
+      method: "GET",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      cache: "no-store"
+    })
+    .then(response => response.text())
+    .then(html => {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      const statusEl = tempDiv.querySelector("#job-hidden-status");
+
+      if (statusEl) {
+        const status = statusEl.textContent.trim();
+        if (status === "COMPLETED" || status === "FAILED") {
+          jobCompleted = true;
+          clearInterval(fakeProgressInterval);
+          clearInterval(checkStatusInterval);
+          // Wait a short delay so user sees 95–100%
+          setTimeout(() => {
+            bar.value = 100;
+            window.location.reload(); // reload the page to show final result
+          }, 1000);
+        }
+      }
+    })
+    .catch(err => {
+      console.error("Polling error:", err);
+    });
+  }, 4000);
+</script>
 </body>
 </html>
