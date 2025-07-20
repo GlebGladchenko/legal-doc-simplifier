@@ -3,10 +3,7 @@ package org.novalegal.services.impl;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import org.novalegal.models.MeetingJob;
-import org.novalegal.services.MeetingJobService;
-import org.novalegal.services.MeetingTranscriptionService;
-import org.novalegal.services.OpenAIClientService;
-import org.novalegal.services.VideoProcessingService;
+import org.novalegal.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +32,8 @@ public class MeetingTranscriptionServiceImpl implements MeetingTranscriptionServ
     private VideoProcessingService videoProcessingService;
     @Autowired
     private Storage storage;
+    @Autowired
+    private MeetingProcessingService processingService;
 
     @Value("${transcribe.api.key}")
     private String transcribeApiKey;
@@ -44,7 +43,7 @@ public class MeetingTranscriptionServiceImpl implements MeetingTranscriptionServ
     private String whisperAPI;
 
     @Async
-    public void processMeetingFileAsync(File inputFile, String inputFileName, String jobId) {
+    public void processMeetingFileAsync(String UUID, File inputFile, String inputFileName, String jobId) {
         MeetingJob job = jobService.getJob(jobId);
         job.setStatus("IN_PROGRESS");
         jobService.updateJob(jobId, job);
@@ -71,6 +70,7 @@ public class MeetingTranscriptionServiceImpl implements MeetingTranscriptionServ
             logger.error(e.getMessage());
         }
 
+        processingService.addJobStatus(UUID, job.getStatus());
         jobService.updateJob(jobId, job);
     }
 

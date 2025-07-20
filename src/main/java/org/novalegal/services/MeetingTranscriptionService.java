@@ -21,5 +21,5 @@ public interface MeetingTranscriptionService {
      * @param videoFile the uploaded video file to process
      * @param jobId the unique job ID associated with this meeting
      */
-    void processMeetingFileAsync(File inputFile, String inputFileName, String jobId);
+    void processMeetingFileAsync(String UUID, File inputFile, String inputFileName, String jobId);
 }

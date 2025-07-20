@@ -46,7 +46,7 @@ public class DocumentController {
         String uuid = null;
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
-                if ("user_uuid".equals(cookie.getName())) {
+                if ("simplifier_uuid".equals(cookie.getName())) {
                     uuid = cookie.getValue();
                     break;
                 }
@@ -56,7 +56,7 @@ public class DocumentController {
         // If UUID cookie is missing, create and set it
         if (uuid == null || uuid.isBlank()) {
             uuid = UUID.randomUUID().toString();
-            Cookie uuidCookie = new Cookie("user_uuid", uuid);
+            Cookie uuidCookie = new Cookie("simplifier_uuid", uuid);
             uuidCookie.setPath("/");
             uuidCookie.setMaxAge(60 * 60 * 24 * 365); // 1 year
             response.addCookie(uuidCookie);
