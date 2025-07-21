@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Meeting Summary Status</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <script src="https://kit.fontawesome.com/4b8b0b6b0b.js" crossorigin="anonymous"></script>
+  <style>
+    html, body {
+      background-color: #f5f5f5;
+    }
+    .box, .notification, .card {
+      background-color: #fff;
+      color: #222;
+    }
+    [data-theme="dark"] html, [data-theme="dark"] body {
+      background-color: #222 !important;
+    }
+    [data-theme="dark"] .box, [data-theme="dark"] .notification, [data-theme="dark"] .card {
+      background-color: #2a2a2a !important;
+      color: #f5f5f5 !important;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="fragments/darkmode-toggle :: darkModeToggle"></div>
+<section class="section is-medium has-background-light" style="min-height: 90vh;">
+  <div class="container" style="max-width: 700px;">
+    <div class="box mt-6">
+      <h2 class="title is-3 has-text-link has-text-centered mb-4">Meeting Summary Status</h2>
+      <!-- Always include the current status in a hidden span for JS polling -->
+      <span id="job-hidden-status" style="display: none;" th:text="${job.status}">IN_PROGRESS</span>
+      <div class="subtitle is-5 has-text-centered mb-3">Track your meeting's progress and view the summary below.</div>
+
+      <!-- Status Notification -->
+      <div th:if="${job.status == 'IN_PROGRESS'}" class="notification has-text-centered mb-4">
+        <span class="icon-text">
+          <span class="icon"><i class="fas fa-spinner fa-spin"></i></span>
+          <span><strong>Status:</strong> <span id="job-status">In Progress</span></span>
+        </span>
+        <progress id="simulated-progress"
+                  class="progress is-small is-link mt-2"
+                  max="100" value="0">
+          Loading…
+        </progress>
+        <p class="has-text-grey mt-2">⏳ Your meeting is being processed. Please wait...</p>
+      </div>
+      <div th:if="${job.status == 'COMPLETED'}" class="notification is-success has-text-centered mb-4">
+        <span class="icon-text">
+          <span class="icon"><i class="fas fa-check-circle"></i></span>
+          <span><strong>Status:</strong> <span th:text="${job.status}">Completed</span></span>
+        </span>
+      </div>
+      <div th:if="${job.status == 'FAILED'}" class="notification is-danger has-text-centered mb-4">
+        <span class="icon-text">
+          <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+          <span><strong>Status:</strong> <span th:text="${job.status}">Failed</span></span>
+        </span>
+      </div>
+
+      <!-- Show final summary -->
+      <div th:if="${job.status == 'COMPLETED'}">
+        <div class="subtitle is-6 has-text-centered mb-2">Here is your meeting summary:</div>
+        <pre class="content" th:text="${job.summaryText}">No summary available.</pre>
+      </div>
+
+      <!-- Show error -->
+      <div th:if="${job.status == 'FAILED'}" class="notification is-danger mt-4">
+        <span class="icon-text">
+          <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+          <span><strong>Error:</strong> <span th:text="${job.errorMessage}">Something went wrong.</span></span>
+        </span>
+      </div>
+
+      <div class="has-text-centered mt-5">
+        <button
+                class="button is-link is-medium is-fullwidth"
+                th:disabled="${job.status == 'IN_PROGRESS'}"
+                onclick="window.location='/meeting-summarizer'"
+                style="white-space: normal;">
+          <span class="icon"><i class="fas fa-upload"></i></span>
+          <span>Upload Another Meeting</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer mt-6" th:if="${job.status != 'IN_PROGRESS'}">
+  <div class="content has-text-centered">
+    <p>
+      <a href="/terms">Terms of Service</a> |
+      <a href="/privacy">Privacy Policy</a> |
+      <a href="/disclaimer">Disclaimer</a> |
+      <a href="/contact" aria-label="Send Feedback">💬 Send Feedback</a> |
+      <a href="/blog">Blog</a>
+    </p>
+    <p class="is-size-7 has-text-grey mt-4">
+      © 2025 NovaSyntax LLC. All rights reserved.
+    </p>
+  </div>
+</footer>
+<script>
+  let progress = 10;
+  const bar = document.querySelector("#simulated-progress");
+  let jobCompleted = false;
+
+  // Fake progress updater: from 10 to 95%
+  const fakeProgressInterval = setInterval(() => {
+    if (!jobCompleted && progress < 95) {
+      progress += 1;
+      bar.value = progress;
+    }
+  }, 2000); // 0.4s per 1% = ~30s total
+
+  // Check backend status every 4 seconds
+  const checkStatusInterval = setInterval(() => {
+    fetch(window.location.href, {
+      method: "GET",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      cache: "no-store"
+    })
+    .then(response => response.text())
+    .then(html => {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      const statusEl = tempDiv.querySelector("#job-hidden-status");
+
+      if (statusEl) {
+        const status = statusEl.textContent.trim();
+        if (status === "COMPLETED" || status === "FAILED") {
+          jobCompleted = true;
+          clearInterval(fakeProgressInterval);
+          clearInterval(checkStatusInterval);
+          // Wait a short delay so user sees 95–100%
+          setTimeout(() => {
+            bar.value = 100;
+            window.location.reload(); // reload the page to show final result
+          }, 1000);
+        }
+      }
+    })
+    .catch(err => {
+      console.error("Polling error:", err);
+    });
+  }, 4000);
+</script>
+</body>
+</html>

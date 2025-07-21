@@ -46,7 +46,7 @@ public class DocumentController {
         String uuid = null;
         if (request.getCookies() != null) {
             for (Cookie cookie : request.getCookies()) {
-                if ("user_uuid".equals(cookie.getName())) {
+                if ("simplifier_uuid".equals(cookie.getName())) {
                     uuid = cookie.getValue();
                     break;
                 }
@@ -56,7 +56,7 @@ public class DocumentController {
         // If UUID cookie is missing, create and set it
         if (uuid == null || uuid.isBlank()) {
             uuid = UUID.randomUUID().toString();
-            Cookie uuidCookie = new Cookie("user_uuid", uuid);
+            Cookie uuidCookie = new Cookie("simplifier_uuid", uuid);
             uuidCookie.setPath("/");
             uuidCookie.setMaxAge(60 * 60 * 24 * 365); // 1 year
             response.addCookie(uuidCookie);
@@ -69,7 +69,7 @@ public class DocumentController {
        /* if (usage.getUsageCount() >= usage.getUsageLimit()) {
             model.addAttribute("error", "You have used your free quota. Please upgrade.");
             model.addAttribute("showLimitModal", true);
-            return "index";
+            return "document-simplifier";
         }*/
 
         // Record new usage
@@ -93,7 +93,7 @@ public class DocumentController {
             } else {
                 model.addAttribute("error", errorMsg);
                 model.addAttribute("showErrorModal", true);
-                return "index";
+                return "document-simplifier";
             }
         }
 
@@ -122,8 +122,14 @@ public class DocumentController {
 
     @GetMapping("/")
     public String index() {
-        return "index";
+        return "home";
     }
+
+    @GetMapping("/document-simplifier")
+    public String documentSimplifier() {
+        return "document-simplifier";
+    }
+
 
     @GetMapping("/privacy")
     public String privacy() {

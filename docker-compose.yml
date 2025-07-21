@@ -41,7 +41,13 @@ services:
       MAIL_TO: ${MAIL_TO}
       STRIPE_SUCCESS_URL: ${STRIPE_SUCCESS_URL}
       STRIPE_CANCEL_URL: ${STRIPE_CANCEL_URL}
+      TRANSCRIBE_API_KEY: ${TRANSCRIBE_API_KEY}
+      GCS_BUCKET_NAME: ${GCS_BUCKET_NAME}
+      GOOGLE_APPLICATION_CREDENTIALS: /app/secrets/sound-potion-466023-k7-266904295585.json
+      MODAL_WHISPER_TRANSCRIBER_URL: ${MODAL_WHISPER_TRANSCRIBER_URL}
       JAVA_TOOL_OPTIONS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+    volumes:
+      - ./secrets/sound-potion-466023-k7-266904295585.json:/app/secrets/sound-potion-466023-k7-266904295585.json:ro
     depends_on:
       db:
         condition: service_healthy
