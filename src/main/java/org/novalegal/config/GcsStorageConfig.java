@@ -21,7 +21,9 @@ public class GcsStorageConfig {
         StorageOptions.Builder builder = StorageOptions.newBuilder();
 
         if (jsonString != null && !jsonString.isEmpty()) {
-            // ✅ Railway or custom env var
+            // ✅ Fix escaped \n in private_key
+            jsonString = jsonString.replace("\\n", "\n");
+
             try (InputStream is = new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8))) {
                 GoogleCredentials credentials = GoogleCredentials.fromStream(is);
                 builder.setCredentials(credentials);
