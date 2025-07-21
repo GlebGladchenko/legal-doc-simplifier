@@ -27,6 +27,9 @@ public class SitemapController {
 
         // Core pages
         sb.append(url(baseUrl + "/", "weekly", "1.0"));
+        sb.append(url(baseUrl + "/document-simplifier", "weekly", "0.9"));
+        sb.append(url(baseUrl + "/meeting-summarizer", "weekly", "0.9"));
+
         sb.append(url(baseUrl + "/privacy", "yearly", "0.3"));
         sb.append(url(baseUrl + "/terms", "yearly", "0.3"));
         sb.append(url(baseUrl + "/disclaimer", "yearly", "0.3"));

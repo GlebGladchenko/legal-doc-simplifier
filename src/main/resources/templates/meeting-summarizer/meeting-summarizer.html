@@ -3,8 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <title>Summarize Meeting Recordings with AI | Teams, Zoom, WebEx – Free</title>
-  <meta name="description" content="Use AI to summarize long meetings from Teams, Zoom, or other platforms. Upload a video or audio file and get a concise recap." />
+  <meta name="description" content="Use AI to instantly summarize your meetings. Upload audio and get a clean summary with key points and action items — no signup required." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Open Graph for social sharing -->
+  <meta property="og:title" content="AI Meeting Summarizer – Free, Fast & Private" />
+  <meta property="og:description" content="Upload a recording and get an AI-generated summary with key takeaways and action items. No email or login required." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://novalegal.org/meeting-summarizer" />
+  <meta property="og:image" content="https://novalegal.org/images/summarizer-preview.png" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI Meeting Summarizer – Free & No Signup Needed" />
+  <meta name="twitter:description" content="Summarize meetings in seconds using AI. Upload audio and get structured notes — free, fast, and private." />
+  <meta name="twitter:image" content="https://novalegal.org/images/summarizer-preview.png" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://novalegal.org/meeting-summarizer" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css" />
@@ -15,6 +31,31 @@
       .button.is-medium { font-size: 1rem; padding: 0.75rem; }
     }
   </style>
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "NovaLegal Meeting Summarizer",
+      "operatingSystem": "All",
+      "applicationCategory": "ProductivityApplication",
+      "description": "Upload a meeting recording (Zoom, Teams, WebEx) and get a concise AI summary with action items.",
+      "url": "https://novalegal.org/meeting-summarizer",
+      "publisher": {
+        "@type": "Organization",
+        "name": "NovaSyntax LLC"
+      }
+    }
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9CPYZFS7DN');
+  </script>
 </head>
 <body>
 <!-- Dark Mode Toggle Button -->

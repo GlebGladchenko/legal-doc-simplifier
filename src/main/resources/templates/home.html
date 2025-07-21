@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8" />
     <title>NovaLegal – AI Tools for Legal Documents & Meetings</title>
+    <!-- Meta Description & Viewport -->
     <meta name="description" content="Choose an AI-powered tool to simplify legal documents or summarize meeting recordings. Built for professionals. No signup needed." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="NovaLegal – AI Tools for Legal Docs & Meetings" />
+    <meta property="og:description" content="Use AI to simplify legal contracts or summarize meetings. No login needed – upload a file and get results instantly." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://novalegal.org/" />
+    <meta property="og:image" content="https://novalegal.org/images/main-preview.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NovaLegal – AI Tools for Legal Docs & Meetings" />
+    <meta name="twitter:description" content="AI-powered contract simplifier and meeting summarizer – free and private. No account required." />
+    <meta name="twitter:image" content="https://novalegal.org/images/main-preview.png" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://novalegal.org/" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
@@ -26,6 +43,30 @@
           }
         }
     </style>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "NovaLegal",
+            "url": "https://novalegal.org",
+            "description": "AI tools to simplify legal documents and summarize meetings. No login required.",
+            "publisher": {
+                "@type": "Organization",
+                "name": "NovaSyntax LLC"
+            }
+        }
+    </script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-9CPYZFS7DN');
+    </script>
 </head>
 <body>
 <!-- Dark Mode Toggle -->
