@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,6 +79,105 @@ public class OpenAIClientServiceImpl implements OpenAIClientService {
                 String.join("\n\n", summaries);
 
         return simplifyWithPrompt(mergedPrompt);
+    }
+
+    public String generateMeetingSummaryFromSegmentsChunked(String whisperJson) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        try {
+            root = mapper.readTree(whisperJson);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to parse Whisper response", e);
+        }
+
+        JsonNode segments = root.get("segments");
+        if (segments == null || !segments.isArray()) {
+            throw new IllegalArgumentException("Missing 'segments' array");
+        }
+
+        StringBuilder allText = new StringBuilder();
+        List<String> entries = new ArrayList<>();
+
+        for (JsonNode segment : segments) {
+            double start = segment.get("start").asDouble();
+            double end = segment.get("end").asDouble();
+            String text = segment.get("text").asText();
+            String timestamp = String.format("[%02d:%02d - %02d:%02d]",
+                    (int)(start / 60), (int)(start % 60),
+                    (int)(end / 60), (int)(end % 60));
+
+            String entry = timestamp + " " + text;
+            entries.add(entry);
+            allText.append(entry).append("\n");
+        }
+
+        // If entire text fits comfortably under 13,000 characters, no need to chunk
+        if (allText.length() <= 13000) {
+            String prompt = buildChunkPrompt(allText.toString(), 1);
+            String rawSummary = simplifyWithPrompt(prompt);
+            return buildFinalSummary(List.of(rawSummary));
+        }
+
+        // Otherwise chunk the entries
+        List<String> chunks = new ArrayList<>();
+        StringBuilder currentChunk = new StringBuilder();
+        int chunkCharLimit = 12000;
+
+        for (String entry : entries) {
+            if (currentChunk.length() + entry.length() + 1 > chunkCharLimit) {
+                chunks.add(currentChunk.toString());
+                currentChunk = new StringBuilder();
+            }
+            currentChunk.append(entry).append("\n");
+        }
+        if (!currentChunk.isEmpty()) {
+            chunks.add(currentChunk.toString());
+        }
+
+        // Summarize each chunk
+        List<String> partialSummaries = new ArrayList<>();
+        for (int i = 0; i < chunks.size(); i++) {
+            String prompt = buildChunkPrompt(chunks.get(i), i + 1);
+            String summary = simplifyWithPrompt(prompt);
+            partialSummaries.add(summary);
+        }
+
+        return buildFinalSummary(partialSummaries);
+    }
+
+    private String buildChunkPrompt(String chunkText, int partNumber) {
+        return """
+        You are an AI meeting assistant. Below is part %d of a transcribed meeting.
+
+        Your task:
+        - Summarize the content clearly and professionally
+        - List key discussion points and decisions
+        - Extract any action items with timestamps, e.g., "[00:02 - 00:05] John to email client."
+
+        Transcript:
+        %s
+        """.formatted(partNumber, chunkText);
+    }
+
+    private String buildFinalSummary(List<String> partialSummaries) {
+        StringBuilder prompt = new StringBuilder("""
+        Based on the following summaries of a meeting, generate a final comprehensive summary.
+
+        Be sure to:
+        - Consolidate all content into one coherent summary
+        - Emphasize key insights and decisions made
+        - Clearly list all action items with timestamps (if mentioned)
+        - Keep output under 400 words
+        - Use bullet points for action items if possible
+
+        ===
+        """);
+
+        for (int i = 0; i < partialSummaries.size(); i++) {
+            prompt.append("Part ").append(i + 1).append(":\n").append(partialSummaries.get(i)).append("\n\n");
+        }
+
+        return simplifyWithPrompt(prompt.toString());
     }
 
     // Helper to call OpenAI with a custom prompt

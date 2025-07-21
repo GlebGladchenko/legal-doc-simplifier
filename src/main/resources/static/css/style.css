@@ -43,18 +43,6 @@ pre.content {
     transition: background 0.2s;
     margin: 0 8px;
 }
-.button:hover {
-    background: #1565c0;
-}
-
-
-/* Spinner overlay styles */
-
-
-/* Footer links styling */
-
-
-
 
 .terms-container {
     max-width: 700px;
@@ -418,18 +406,6 @@ pre.content {
     transition: background 0.2s;
     margin: 0 8px;
 }
-.button:hover {
-    background: #1565c0;
-}
-
-
-/* Spinner overlay styles */
-
-
-/* Footer links styling */
-
-
-
 
 .terms-container {
     max-width: 700px;
@@ -897,3 +873,19 @@ html.dark-mode input,
    border-color: var(--bulma-link) !important;
    outline: none;
  }
+
+ .button:hover {
+   transform: scale(1.03);
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+ }
+
+ .dark-mode .button:hover {
+   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+ }
+
+ .dark-mode .button.is-light:hover {
+   background-color: rgba(255, 255, 255, 0.05);
+   color: #fff;
+ }
+
+
