@@ -149,4 +149,28 @@ public class BlogController {
         model.addAttribute("jsonLd", jsonLd);
         return "blog/freelance-contract-tips";
     }
+
+    @GetMapping("/blog/why-not-upload-meetings-to-chatgpt")
+    public String showMeetingRecordingsWarningBlog(Model model) {
+        String jsonLd = """
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Why You Should Never Upload Meeting Recordings to ChatGPT",
+  "image": "https://novalegal.org/images/blog/meeting-upload-risk.png",
+  "author": { "@type": "Organization", "name": "NovaSyntax LLC" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NovaSyntax LLC",
+    "logo": { "@type": "ImageObject", "url": "https://novalegal.org/images/logo.png" }
+  },
+  "url": "https://novalegal.org/blog/meeting-recordings-chatgpt-warning",
+  "datePublished": "2025-07-21",
+  "dateModified": "2025-07-21",
+  "description": "Learn the risks of uploading sensitive meeting recordings to public AI tools. This article explains better options like using secure on-prem summarization with Whisper and private GPT instances."
+}
+""";
+        model.addAttribute("jsonLd", jsonLd);
+        return "blog/why-not-upload-meetings-to-chatgpt";
+    }
 }

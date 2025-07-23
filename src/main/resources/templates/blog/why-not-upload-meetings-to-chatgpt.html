@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead(
+    'Why You Should Never Upload Meeting Recordings to ChatGPT',
+    'Uploading sensitive meeting recordings to ChatGPT might expose confidential info. Learn why it’s risky and discover secure on-premise alternatives.',
+    'https://novalegal.org/images/blog/meeting-upload-risk.png',
+    'https://novalegal.org/blog/never-upload-meetings-to-chatgpt',
+    ${jsonLd}
+)">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<div th:replace="fragments/darkmode-toggle :: darkModeToggle"></div>
+<section class="section is-medium has-background-light">
+    <div class="container" style="max-width: 700px;">
+        <div class="box mt-6">
+            <header class="mb-5 has-text-centered">
+                <h1 class="title is-2 has-text-link mb-2">Why You Should Never Upload Meeting Recordings to ChatGPT</h1>
+                <p class="has-text-grey is-size-6 mb-5">Protect your team’s data and avoid unintended exposure</p>
+            </header>
+            <div class="content">
+                <h2 class="subtitle is-4 mt-5">The Hidden Risk of Uploading Recordings</h2>
+                <p>Sharing your internal meetings with a public AI model like ChatGPT may seem harmless — or even efficient — but it can create serious privacy and compliance issues. From confidential strategies to customer data, what's said in meetings isn’t meant for the cloud.</p>
+
+                <h2 class="subtitle is-4 mt-5">1. <strong>You Don’t Control the Data</strong></h2>
+                <p>When you upload a file to ChatGPT or another public LLM, you're trusting a third-party system to handle your data securely. But many models are hosted in environments where you don’t know where or how your data is processed — and whether it’s ever used to train future models.</p>
+
+                <h2 class="subtitle is-4 mt-5">2. <strong>No Real Audit Trail</strong></h2>
+                <p>Need to prove where your data went, or who accessed it? Public tools don’t offer the logging and transparency required by IT compliance policies. If you're in a regulated industry, that’s a big red flag.</p>
+
+                <h2 class="subtitle is-4 mt-5">3. <strong>Client & Employee Privacy at Risk</strong></h2>
+                <p>Meeting transcripts often include personally identifiable information (PII), protected health data (PHI), or client-specific plans. Uploading those files could inadvertently expose people to risk — and open you up to liability.</p>
+
+                <h2 class="subtitle is-4 mt-5">4. <strong>GDPR, HIPAA & SOC 2 Issues</strong></h2>
+                <p>If your company is subject to GDPR, HIPAA, or similar regulations, uploading files to a non-compliant service can be a serious violation. Most general-purpose AI tools don’t provide Business Associate Agreements (BAAs) or support data residency controls.</p>
+
+                <h2 class="subtitle is-4 mt-5">5. <strong>There’s a Better Way</strong></h2>
+                <p>Instead of sending your recordings to the cloud, consider on-premise solutions. With NovaLegal's meeting summarizer, you can deploy a version of the tool directly inside your organization — using open-source Whisper for transcription and your own secure AI backend for summarization.</p>
+                <p>This gives you full control over data, auditability, and compliance — without sacrificing automation or quality.</p>
+
+                <h2 class="subtitle is-4 mt-5">Secure Your Meetings — Automatically</h2>
+                <p>NovaLegal’s <a href="/meeting-summarizer">Meeting Summarizer</a> lets you analyze conversations without compromising confidentiality. Need an on-prem solution?</p>
+                <p><a href="/meeting-summarizer/on-premise" class="button is-link is-medium is-fullwidth mt-3" style="white-space: normal;">Request On-Prem Access</a></p>
+
+                <h2 class="subtitle is-4 mt-5">Final Thought</h2>
+                <p>Not all AI tools are created equal. When it comes to internal meetings, your data deserves protection. Choose a secure, transparent, and enterprise-ready option instead of a risky shortcut.</p>
+
+                <hr class="my-6">
+                <footer class="has-text-grey is-size-6">
+                    <p><strong>Tags:</strong> meeting privacy, AI compliance, secure summarizer, ChatGPT risks, on-prem AI</p>
+                    <p>© 2025 NovaSyntax LLC · <a href="/">Back to Home</a> · <a href="/blog">More Blog Articles</a></p>
+                </footer>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer mt-6">
+    <div class="content has-text-centered">
+        <p>
+            <a href="/terms">Terms of Service</a> |
+            <a href="/privacy">Privacy Policy</a> |
+            <a href="/disclaimer">Disclaimer</a> |
+            <a href="/contact" aria-label="Send Feedback">💬 Send Feedback</a> |
+            <a href="/">Home</a>
+        </p>
+        <p class="is-size-7 has-text-grey mt-4">
+            © 2025 NovaSyntax LLC. All rights reserved.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
