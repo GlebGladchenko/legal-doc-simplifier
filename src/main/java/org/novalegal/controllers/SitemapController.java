@@ -29,6 +29,7 @@ public class SitemapController {
         sb.append(url(baseUrl + "/", "weekly", "1.0"));
         sb.append(url(baseUrl + "/document-simplifier", "weekly", "0.9"));
         sb.append(url(baseUrl + "/meeting-summarizer", "weekly", "0.9"));
+        sb.append(url(baseUrl + "/meeting-summarizer/on-premiser", "weekly", "0.9"));
 
         sb.append(url(baseUrl + "/privacy", "yearly", "0.3"));
         sb.append(url(baseUrl + "/terms", "yearly", "0.3"));
@@ -46,6 +47,7 @@ public class SitemapController {
         sb.append(url(baseUrl + "/blog/ai-to-spot-nda-red-flags", "monthly", "0.6"));
         sb.append(url(baseUrl + "/blog/contract-jargon-explained", "monthly", "0.6"));
         sb.append(url(baseUrl + "/blog/freelance-contract-tips", "monthly", "0.6"));
+        sb.append(url(baseUrl + "/blog/why-not-upload-meetings-to-chatgpt", "monthly", "0.6"));
 
         sb.append("</urlset>");
         return sb.toString();
