@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: commonHead(
-    'Blog | Understand Legal Documents with AI',
-    'Learn how to simplify contracts, NDAs, leases and more using AI. No signup needed. Explore our blog for guides and tips.',
+    'Blog | Understand Legal & Meeting Content with AI',
+    'Learn how to simplify contracts and summarize meetings with AI — no signup needed. Explore our blog for guides and tips.',
     'https://novalegal.org/images/seo/blog-overview.png',
     'https://novalegal.org/blog',
     ${jsonLd}
 )">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
 <div th:replace="fragments/darkmode-toggle :: darkModeToggle"></div>
@@ -15,11 +15,20 @@
   <div class="container" style="max-width: 700px;">
     <div class="box mt-6">
       <header class="mb-5 has-text-centered">
-        <h1 class="title is-2 has-text-link mb-2">📚 Legal Simplification Blog</h1>
-        <p class="has-text-grey is-size-6 mb-5">Guides, tips, and examples on understanding legal documents using AI — no law degree required.</p>
+        <h1 class="title is-2 has-text-link mb-2">📚 NovaLegal AI Blog</h1>
+        <p class="has-text-grey is-size-6 mb-5">
+          Tips on simplifying contracts <em>and</em> summarizing meetings with AI — explore practical guides, examples, and best practices.
+        </p>
       </header>
       <div class="content">
         <ul>
+          <li class="mb-4">
+            <a href="/blog/why-not-upload-meetings-to-chatgpt" class="title is-5 has-text-link">Why You Should Never Upload Meeting Recordings to ChatGPT</a>
+            <p class="is-size-6 has-text-grey">
+              Is your meeting data sensitive? Learn the risks of uploading recordings to ChatGPT and explore private, on-prem alternatives.
+            </p>
+          </li>
+          <!-- Existing Legal Simplifier Posts -->
           <li class="mb-4">
             <a href="/blog/how-to-understand-legal-documents" class="title is-5 has-text-link">How to Understand Legal Documents Without a Lawyer</a>
             <p class="is-size-6 has-text-grey">Learn how to simplify NDAs, leases, and contracts using AI tools. See examples and try it yourself — no signup needed.</p>

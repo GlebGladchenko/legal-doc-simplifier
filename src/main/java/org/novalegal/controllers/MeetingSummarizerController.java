@@ -51,6 +51,11 @@ public class MeetingSummarizerController {
         return "meeting-summarizer/meeting-summarizer"; // Thymeleaf template name (meeting-summarizer.html)
     }
 
+    @GetMapping("/meeting-summarizer/on-premise")
+    public String onPremise() {
+        return "on-premise";
+    }
+
     @PostMapping("/meeting-summarizer")
     public ResponseEntity<?> processMeetingUpload(@RequestParam("file") MultipartFile file,
                                                   HttpServletRequest request,

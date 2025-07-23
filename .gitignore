@@ -9,6 +9,7 @@ secrets/
 .env
 application-dev.properties
 __pycache__/
+.DS_Store
 
 ### STS ###
 .apt_generated

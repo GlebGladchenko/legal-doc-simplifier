@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>NovaLegal On-Prem – Private AI for Enterprises</title>
+  <meta name="description" content="Deploy NovaLegal’s AI tools on your private infrastructure. Ideal for legal teams and enterprise compliance." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="NovaLegal On-Prem – Private AI for Legal Docs & Meetings" />
+  <meta property="og:description" content="Run NovaLegal’s AI tools on your own servers. Maintain privacy while using AI to simplify legal work." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://novalegal.org/on-prem" />
+  <meta property="og:image" content="https://novalegal.org/images/main-preview.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NovaLegal On-Prem – Private AI for Legal Docs & Meetings" />
+  <meta name="twitter:description" content="Run NovaLegal on your own infrastructure. Keep client data secure and compliant." />
+  <meta name="twitter:image" content="https://novalegal.org/images/main-preview.png" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "NovaLegal On-Prem",
+      "url": "https://novalegal.org/on-prem",
+      "description": "Run NovaLegal’s AI tools on your infrastructure. Ideal for legal teams with strict data policies.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "NovaSyntax LLC"
+      }
+    }
+  </script>
+</head>
+
+<body>
+<!-- Dark Mode Toggle -->
+<div th:replace="fragments/darkmode-toggle :: darkModeToggle"></div>
+
+<section class="section is-medium has-background-light">
+  <div class="container px-4" style="max-width: 100%; max-width: 750px;">
+    <div class="has-text-centered mb-6">
+      <h1 class="title is-2 has-text-link">On-Prem Deployment</h1>
+      <h2 class="subtitle is-4">Private, secure AI tools — hosted by you</h2>
+    </div>
+
+    <div class="content is-medium">
+      <p class="mb-5">
+        For enterprises and legal teams with strict compliance requirements, NovaLegal offers an
+        <strong>on-premise deployment</strong> of both our <a href="/document-simplifier">Legal Document Simplifier</a>
+        and <a href="/meeting-summarizer">Meeting Summarizer</a>. You get all the benefits of our AI platform —
+        deployed securely on your infrastructure.
+      </p>
+
+      <div class="box has-background-white feature-tile">
+        <ul>
+          <li><i class="fas fa-shield-alt has-text-success mr-2"></i>Data never leaves your network</li>
+          <li><i class="fas fa-server has-text-info mr-2"></i>Run using Docker or Kubernetes</li>
+          <li><i class="fas fa-tools has-text-grey mr-2"></i>Supports air-gapped environments</li>
+          <li><i class="fas fa-file-contract has-text-primary mr-2"></i>Summarize contracts, NDAs, and leases</li>
+          <li><i class="fas fa-microphone-alt has-text-danger mr-2"></i>Transcribe and summarize recorded meetings</li>
+        </ul>
+      </div>
+
+      <div class="notification is-link is-light mt-6">
+        Interested in running NovaLegal on-prem?<br/>
+        <strong><a href="/contact">Contact us</a></strong> to discuss licensing and setup.
+      </div>
+    </div>
+
+    <div class="has-text-centered mt-6">
+      <span class="is-size-6">🔒 Built for professionals. Compliant by design.</span>
+    </div>
+
+    <footer class="footer mt-6">
+      <div class="content has-text-centered">
+        <p>
+          <a href="/">Home</a> |
+          <a href="/terms">Terms of Service</a> |
+          <a href="/privacy">Privacy Policy</a> |
+          <a href="/disclaimer">Disclaimer</a> |
+          <a href="/contact">💬 Contact</a> |
+          <a href="/blog">Blog</a>
+        </p>
+        <p class="is-size-7 has-text-grey mt-4">
+          © 2025 NovaSyntax LLC. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  </div>
+</section>
+</body>
+</html>
