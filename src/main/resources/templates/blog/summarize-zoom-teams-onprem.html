@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: commonHead(
+    'How to Summarize Zoom or Teams Calls Without Leaving Your Network',
+    'Learn how to securely summarize online meetings inside your company network — using open-source Whisper and private AI summarization.',
+    'https://novalegal.org/images/blog/onprem-summarizer.png',
+    'https://novalegal.org/blog/summarize-zoom-teams-onprem',
+    ${jsonLd}
+)">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<div th:replace="fragments/darkmode-toggle :: darkModeToggle"></div>
+<section class="section is-medium has-background-light">
+    <div class="container" style="max-width: 700px;">
+        <div class="box mt-6">
+            <header class="mb-5 has-text-centered">
+                <h1 class="title is-2 has-text-link mb-2">How to Summarize Zoom or Teams Calls Without Leaving Your Network</h1>
+                <p class="has-text-grey is-size-6 mb-5">Confidential meetings deserve a private summarization pipeline</p>
+            </header>
+            <div class="content">
+                <h2 class="subtitle is-4 mt-5">The Problem with Cloud-Based Summarizers</h2>
+                <p>Uploading your company’s Zoom or Teams recordings to a public AI tool might seem like a time-saver — but it can open the door to data leaks, regulatory violations, and lost trust. Whether you're dealing with client strategy, internal HR issues, or legal matters, those calls shouldn't leave your network.</p>
+
+                <h2 class="subtitle is-4 mt-5">On-Prem AI for Secure Summarization</h2>
+                <p>Fortunately, it's now possible to run the entire summarization pipeline locally. With NovaLegal’s <a href="/meeting-summarizer">Meeting Summarizer</a>, you can install a private version that never sends data to third parties.</p>
+                <p>Here’s how it works:</p>
+
+                <ul>
+                    <li><strong>Step 1:</strong> Extract audio from your Zoom/Teams recording using <code>ffmpeg</code></li>
+                    <li><strong>Step 2:</strong> Transcribe the audio with Whisper (on your own GPU)</li>
+                    <li><strong>Step 3:</strong> Parse the structured transcript into speaker segments</li>
+                    <li><strong>Step 4:</strong> Use your own secure AI backend to generate a natural-language summary, key discussion points, and action items</li>
+                </ul>
+
+                <h2 class="subtitle is-4 mt-5">Why This Matters</h2>
+                <p>When your summarization happens on-premises:</p>
+                <ul>
+                    <li>You stay compliant with regulations like GDPR, HIPAA, and SOC 2</li>
+                    <li>Your IT team retains full control over data, access, and retention</li>
+                    <li>There’s no risk of model training on your sensitive information</li>
+                </ul>
+
+                <h2 class="subtitle is-4 mt-5">Built for Teams That Take Privacy Seriously</h2>
+                <p>Whether you're in legal, healthcare, finance, or a startup that values confidentiality, this solution brings you peace of mind and productivity in one package.</p>
+
+                <h2 class="subtitle is-4 mt-5">Try It or Host It Yourself</h2>
+                <p>You can test the summarizer securely via our <a href="/meeting-summarizer">online tool</a>, or request access to the on-prem version for your internal infrastructure.</p>
+                <p><a href="/meeting-summarizer/on-premise" class="button is-link is-medium is-fullwidth mt-3" style="white-space: normal;">Request On-Prem Access</a></p>
+
+                <h2 class="subtitle is-4 mt-5">Final Thought</h2>
+                <p>Summarizing meetings shouldn’t mean giving up control. If you’re serious about privacy, compliance, and efficiency — keep your data in-house and automate with confidence.</p>
+
+                <hr class="my-6">
+                <footer class="has-text-grey is-size-6">
+                    <p><strong>Tags:</strong> zoom summary, teams recap, on-prem AI, whisper transcription, meeting privacy, AI compliance</p>
+                    <p>© 2025 NovaSyntax LLC · <a href="/">Back to Home</a> · <a href="/blog">More Blog Articles</a></p>
+                </footer>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer mt-6">
+    <div class="content has-text-centered">
+        <p>
+            <a href="/terms">Terms of Service</a> |
+            <a href="/privacy">Privacy Policy</a> |
+            <a href="/disclaimer">Disclaimer</a> |
+            <a href="/contact" aria-label="Send Feedback">💬 Send Feedback</a> |
+            <a href="/">Home</a>
+        </p>
+        <p class="is-size-7 has-text-grey mt-4">
+            © 2025 NovaSyntax LLC. All rights reserved.
+        </p>
+    </div>
+</footer>
+</body>
+</html>
