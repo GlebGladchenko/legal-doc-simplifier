@@ -36,10 +36,6 @@ public class SitemapController {
         sb.append(url(baseUrl + "/disclaimer", "yearly", "0.3"));
         sb.append(url(baseUrl + "/contact", "monthly", "0.5"));
 
-        // Stripe pages
-        sb.append(url(baseUrl + "/success", "monthly", "0.2"));
-        sb.append(url(baseUrl + "/cancel", "monthly", "0.2"));
-
         // Blog
         sb.append(url(baseUrl + "/blog", "weekly", "0.8"));
         sb.append(url(baseUrl + "/blog/how-to-understand-legal-documents", "monthly", "0.6"));
@@ -48,6 +44,7 @@ public class SitemapController {
         sb.append(url(baseUrl + "/blog/contract-jargon-explained", "monthly", "0.6"));
         sb.append(url(baseUrl + "/blog/freelance-contract-tips", "monthly", "0.6"));
         sb.append(url(baseUrl + "/blog/why-not-upload-meetings-to-chatgpt", "monthly", "0.6"));
+        sb.append(url(baseUrl + "/blog/summarize-zoom-teams-onprem", "monthly", "0.6"));
 
         sb.append("</urlset>");
         return sb.toString();

@@ -153,24 +153,48 @@ public class BlogController {
     @GetMapping("/blog/why-not-upload-meetings-to-chatgpt")
     public String showMeetingRecordingsWarningBlog(Model model) {
         String jsonLd = """
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Why You Should Never Upload Meeting Recordings to ChatGPT",
-  "image": "https://novalegal.org/images/blog/meeting-upload-risk.png",
-  "author": { "@type": "Organization", "name": "NovaSyntax LLC" },
-  "publisher": {
-    "@type": "Organization",
-    "name": "NovaSyntax LLC",
-    "logo": { "@type": "ImageObject", "url": "https://novalegal.org/images/logo.png" }
-  },
-  "url": "https://novalegal.org/blog/meeting-recordings-chatgpt-warning",
-  "datePublished": "2025-07-21",
-  "dateModified": "2025-07-21",
-  "description": "Learn the risks of uploading sensitive meeting recordings to public AI tools. This article explains better options like using secure on-prem summarization with Whisper and private GPT instances."
-}
-""";
+        {
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          "headline": "Why You Should Never Upload Meeting Recordings to ChatGPT",
+          "image": "https://novalegal.org/images/blog/meeting-upload-risk.png",
+          "author": { "@type": "Organization", "name": "NovaSyntax LLC" },
+          "publisher": {
+            "@type": "Organization",
+            "name": "NovaSyntax LLC",
+            "logo": { "@type": "ImageObject", "url": "https://novalegal.org/images/logo.png" }
+          },
+          "url": "https://novalegal.org/blog/meeting-recordings-chatgpt-warning",
+          "datePublished": "2025-07-21",
+          "dateModified": "2025-07-21",
+          "description": "Learn the risks of uploading sensitive meeting recordings to public AI tools. This article explains better options like using secure on-prem summarization with Whisper and private GPT instances."
+        }
+        """;
         model.addAttribute("jsonLd", jsonLd);
         return "blog/why-not-upload-meetings-to-chatgpt";
+    }
+
+    @GetMapping("/blog/summarize-zoom-teams-onprem")
+    public String showOnPremMeetingSummarizerBlog(Model model) {
+        String jsonLd = """
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "How to Summarize Zoom or Teams Calls Without Leaving Your Network",
+      "image": "https://novalegal.org/images/blog/onprem-summarizer.png",
+      "author": { "@type": "Organization", "name": "NovaSyntax LLC" },
+      "publisher": {
+        "@type": "Organization",
+        "name": "NovaSyntax LLC",
+        "logo": { "@type": "ImageObject", "url": "https://novalegal.org/images/logo.png" }
+      },
+      "url": "https://novalegal.org/blog/summarize-zoom-teams-onprem",
+      "datePublished": "2025-07-26",
+      "dateModified": "2025-07-26",
+      "description": "Learn how to securely summarize online meetings inside your company network — using open-source Whisper and private AI summarization."
+    }
+    """;
+        model.addAttribute("jsonLd", jsonLd);
+        return "blog/summarize-zoom-teams-onprem";
     }
 }
