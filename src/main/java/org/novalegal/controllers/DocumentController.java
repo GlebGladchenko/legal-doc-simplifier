@@ -160,7 +160,6 @@ public class DocumentController {
         return "cancel";
     }
 
-    @GetMapping("/contact")
     public String showContactForm() {
         return "contact";
     }

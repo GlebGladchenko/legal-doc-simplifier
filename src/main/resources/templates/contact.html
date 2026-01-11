@@ -1,58 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Contact Us</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-9CPYZFS7DN');
-    </script>
+  <meta charset="UTF-8">
+  <title>Contact Us</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"/>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9CPYZFS7DN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9CPYZFS7DN');
+  </script>
 </head>
+
 <body>
 <div th:replace="fragments/darkmode-toggle :: darkModeToggle"></div>
+
 <section class="section is-medium has-background-light">
   <div class="container" style="max-width: 600px;">
-    <div class="box mt-6">
-      <h2 class="title is-3 has-text-link has-text-centered mb-2">Contact Us</h2>
-      <div class="has-text-grey is-size-7 has-text-right mb-4">All fields are required.</div>
-      <form th:action="@{/contact}" method="post" autocomplete="on" aria-label="Contact form">
-        <div class="field">
-          <label class="label" for="name">Your Name:</label>
-          <div class="control">
-            <input class="input" type="text" name="name" id="name" required autocomplete="name" placeholder="Enter your name" aria-required="true" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label" for="email">Your Email:</label>
-          <div class="control">
-            <input class="input" type="email" name="email" id="email" required autocomplete="email" placeholder="you@email.com" aria-required="true" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label" for="message">Message:</label>
-          <div class="control">
-            <textarea class="textarea" name="message" id="message" required placeholder="Type your message here..." aria-required="true"></textarea>
-          </div>
-        </div>
-        <div class="field has-text-centered mt-5">
-          <button type="submit" class="button is-link is-medium" aria-label="Send Message">
-            <span class="icon"><i class="fas fa-paper-plane"></i></span>
-            <span>Send Message</span>
-          </button>
-        </div>
-      </form>
-      <div th:if="${success}" class="notification is-success mt-5" role="alert">
-        <span>✅ Thank you! Your message has been sent.</span>
+    <div class="box mt-6 has-text-centered">
+
+      <h2 class="title is-3 has-text-link mb-4">Contact Us</h2>
+
+      <p class="mb-4">
+        For questions, feedback, or support, please contact us directly by email.
+      </p>
+
+      <div class="notification is-link is-light">
+        <p class="is-size-5 has-text-weight-semibold mb-2">
+          📧 Email us at
+        </p>
+
+        <!-- Spam-safe email rendering -->
+        <p class="is-size-5">
+          <script>
+            document.write(
+                '<a href="mailto:' +
+                'info' + '@' + 'novalegal.org' +
+                '">' +
+                'info' + '@' + 'novalegal.org' +
+                '</a>'
+            );
+          </script>
+        </p>
       </div>
+
+      <p class="is-size-7 has-text-grey mt-4">
+        We usually respond within 24 hours on business days.
+      </p>
+
+      <p class="is-size-7 has-text-grey mt-2">
+        Direct email ensures reliable communication and avoids form delivery issues.
+      </p>
+
     </div>
   </div>
 </section>
+
 <footer class="footer mt-6">
   <div class="content has-text-centered">
     <p>
@@ -67,18 +76,20 @@
     </p>
   </div>
 </footer>
+
 <style>
   html.dark-mode input,
   html.dark-mode textarea,
   html.dark-mode select {
-    background-color: #23272b !important;
-    color: #eaeaea !important;
-    border-color: #404040 !important;
+      background-color: #23272b !important;
+      color: #eaeaea !important;
+      border-color: #404040 !important;
   }
 
   html.dark-mode .label {
-    color: var(--bulma-text) !important;
+      color: var(--bulma-text) !important;
   }
 </style>
+
 </body>
 </html>
