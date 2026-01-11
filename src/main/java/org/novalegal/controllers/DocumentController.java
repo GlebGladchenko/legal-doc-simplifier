@@ -160,11 +160,11 @@ public class DocumentController {
         return "cancel";
     }
 
+    @GetMapping("/contact")
     public String showContactForm() {
         return "contact";
     }
 
-    @PostMapping("/contact")
     public String handleContactForm(
             @RequestParam String name,
             @RequestParam String email,
